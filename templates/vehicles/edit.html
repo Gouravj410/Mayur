@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Vehicle - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5">
+                <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                    <div class="bg-secondary text-white p-3 rounded-circle">
+                        <i class="bi bi-pencil-square fs-3"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">Edit Vehicle Information</h4>
+                        <p class="text-muted small mb-0">{{ vehicle.brand }} {{ vehicle.model }} ({{ vehicle.registration_number }})</p>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ url_for('vehicle.edit_vehicle', vehicle_id=vehicle.id) }}">
+                    <div class="mb-3">
+                        <label class="form-label">Vehicle Registration Number <span class="text-danger">*</span></label>
+                        <input type="text" name="registration_number" class="form-control text-uppercase font-monospace" value="{{ vehicle.registration_number }}" required>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Brand / Make <span class="text-danger">*</span></label>
+                            <input type="text" name="brand" class="form-control" value="{{ vehicle.brand }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Model <span class="text-danger">*</span></label>
+                            <input type="text" name="model" class="form-control" value="{{ vehicle.model }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Mfg. Year <span class="text-danger">*</span></label>
+                            <input type="number" name="manufacturing_year" class="form-control" value="{{ vehicle.manufacturing_year }}" min="1980" max="2027" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fuel Type <span class="text-danger">*</span></label>
+                            <select name="fuel_type" class="form-select" required>
+                                <option value="Petrol" {% if vehicle.fuel_type == 'Petrol' %}selected{% endif %}>Petrol</option>
+                                <option value="Diesel" {% if vehicle.fuel_type == 'Diesel' %}selected{% endif %}>Diesel</option>
+                                <option value="CNG" {% if vehicle.fuel_type == 'CNG' %}selected{% endif %}>CNG</option>
+                                <option value="Electric" {% if vehicle.fuel_type == 'Electric' %}selected{% endif %}>Electric</option>
+                                <option value="Hybrid" {% if vehicle.fuel_type == 'Hybrid' %}selected{% endif %}>Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Color <span class="text-danger">*</span></label>
+                            <input type="text" name="vehicle_color" class="form-control" value="{{ vehicle.vehicle_color }}" required>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('vehicle.list_vehicles') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary fw-semibold px-4">
+                            <i class="bi bi-save me-1"></i> Update Vehicle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

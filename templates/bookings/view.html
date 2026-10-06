@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}Booking #BK-{{ booking.id }} Details - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Top Bar Navigation -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <div class="d-flex align-items-center gap-2">
+                <h3 class="fw-bold mb-0">Booking #BK-{{ booking.id }}</h3>
+                {% if booking.booking_status == 'Pending' %}
+                    <span class="badge bg-warning text-dark fs-6">Pending Approval</span>
+                {% elif booking.booking_status == 'Approved' %}
+                    <span class="badge bg-info text-dark fs-6">Approved</span>
+                {% elif booking.booking_status == 'In Service' %}
+                    <span class="badge bg-primary fs-6">In Workshop Service</span>
+                {% elif booking.booking_status == 'Completed' %}
+                    <span class="badge bg-success fs-6">Service Completed</span>
+                {% elif booking.booking_status == 'Rejected' %}
+                    <span class="badge bg-danger fs-6">Rejected</span>
+                {% else %}
+                    <span class="badge bg-secondary fs-6">Cancelled</span>
+                {% endif %}
+            </div>
+            <small class="text-muted">Placed on {{ booking.created_at }} &bull; Slot: {{ booking.booking_date }} ({{ booking.booking_time }})</small>
+        </div>
+
+        <div class="d-flex gap-2">
+            {% if session.get('role') == 'admin' %}
+                <a href="{{ url_for('booking.admin_bookings') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> All Bookings
+                </a>
+                {% if repair %}
+                    <a href="{{ url_for('repair.edit_repair', repair_id=repair.id) }}" class="btn btn-primary fw-semibold">
+                        <i class="bi bi-wrench me-1"></i> Manage Repair Work
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('booking.my_bookings') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> My Bookings
+                </a>
+            {% endif %}
+
+            {% if bill %}
+                <a href="{{ url_for('billing.view_bill', bill_id=bill.id) }}" class="btn btn-success fw-bold">
+                    <i class="bi bi-receipt me-1"></i> View Invoice
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Visual Lifecycle Step Progress Bar -->
+    <div class="card shadow-sm border-0 mb-4 p-3 bg-white">
+        <div class="repair-step-indicator">
+            <div class="step-node completed">
+                <div class="step-circle"><i class="bi bi-check"></i></div>
+                <small class="fw-bold d-block">Requested</small>
+                <span class="text-muted" style="font-size: 0.75rem;">Step 1</span>
+            </div>
+            <div class="step-node {% if booking.booking_status in ['Approved', 'In Service', 'Completed'] %}completed{% elif booking.booking_status == 'Pending' %}active{% endif %}">
+                <div class="step-circle">{% if booking.booking_status in ['Approved', 'In Service', 'Completed'] %}<i class="bi bi-check"></i>{% else %}2{% endif %}</div>
+                <small class="fw-bold d-block">Approval</small>
+                <span class="text-muted" style="font-size: 0.75rem;">Step 2</span>
+            </div>
+            <div class="step-node {% if booking.booking_status in ['In Service', 'Completed'] %}completed{% elif booking.booking_status == 'Approved' %}active{% endif %}">
+                <div class="step-circle">{% if booking.booking_status in ['Completed'] %}<i class="bi bi-check"></i>{% elif booking.booking_status == 'In Service' %}<i class="bi bi-gear-fill"></i>{% else %}3{% endif %}</div>
+                <small class="fw-bold d-block">Work In Progress</small>
+                <span class="text-muted" style="font-size: 0.75rem;">Step 3</span>
+            </div>
+            <div class="step-node {% if booking.booking_status == 'Completed' %}completed{% endif %}">
+                <div class="step-circle">{% if booking.booking_status == 'Completed' %}<i class="bi bi-check"></i>{% else %}4{% endif %}</div>
+                <small class="fw-bold d-block">Inspection & Handover</small>
+                <span class="text-muted" style="font-size: 0.75rem;">Step 4</span>
+            </div>
+            <div class="step-node {% if bill and bill.payment_status == 'Paid' %}completed{% elif bill %}active{% endif %}">
+                <div class="step-circle">{% if bill and bill.payment_status == 'Paid' %}<i class="bi bi-check"></i>{% else %}5{% endif %}</div>
+                <small class="fw-bold d-block">Billing & Payment</small>
+                <span class="text-muted" style="font-size: 0.75rem;">Step 5</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Vehicle & Customer Column -->
+        <div class="col-lg-4">
+            <!-- Vehicle Card -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-car-front text-primary me-2"></i> Vehicle Information</h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="fw-bold mb-1">{{ booking.brand }} {{ booking.model }}</h4>
+                    <span class="badge bg-dark font-monospace fs-6 mb-3">{{ booking.registration_number }}</span>
+                    <ul class="list-unstyled mb-0 d-grid gap-2 small">
+                        <li><strong>Manufacturing Year:</strong> {{ booking.manufacturing_year }}</li>
+                        <li><strong>Fuel Type:</strong> {{ booking.fuel_type }}</li>
+                        <li><strong>Color:</strong> {{ booking.vehicle_color }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Customer Card -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-person text-primary me-2"></i> Customer Details</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="fw-bold mb-1">{{ booking.customer_name }}</h5>
+                    <p class="text-muted small mb-2"><i class="bi bi-envelope me-1"></i> {{ booking.customer_email }}</p>
+                    <p class="text-muted small mb-0"><i class="bi bi-telephone me-1"></i> {{ booking.customer_phone }}</p>
+                </div>
+            </div>
+
+            <!-- Admin Actions Card (Visible for Admin only) -->
+            {% if session.get('role') == 'admin' %}
+                <div class="card shadow-sm border-0 border-top border-4 border-primary">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-sliders text-primary me-2"></i> Admin Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('booking.update_booking_status', booking_id=booking.id) }}">
+                            <div class="mb-3">
+                                <label class="form-label">Update Booking Status</label>
+                                <select name="booking_status" class="form-select">
+                                    <option value="Pending" {% if booking.booking_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Approved" {% if booking.booking_status == 'Approved' %}selected{% endif %}>Approved (Queue Repair)</option>
+                                    <option value="In Service" {% if booking.booking_status == 'In Service' %}selected{% endif %}>In Service (Workshop Active)</option>
+                                    <option value="Completed" {% if booking.booking_status == 'Completed' %}selected{% endif %}>Completed (Ready for Invoice)</option>
+                                    <option value="Rejected" {% if booking.booking_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                    <option value="Cancelled" {% if booking.booking_status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Admin Notes</label>
+                                <textarea name="admin_notes" class="form-control" rows="2" placeholder="Internal remarks...">{{ booking.admin_notes or '' }}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                                Update Status
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Appointment & Repair Details Column -->
+        <div class="col-lg-8">
+            <!-- Service Package Details -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-tools text-primary me-2"></i> Service Booked</h5>
+                    <span class="fs-5 fw-bold text-primary">₹{{ "%.2f"|format(booking.base_price) }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="fw-bold">{{ booking.service_name }}</h5>
+                    <p class="text-muted small mb-3">{{ booking.service_desc }}</p>
+                    <div class="row g-2 small border-top pt-2">
+                        <div class="col-sm-6">
+                            <strong>Estimated Duration:</strong> {{ booking.estimated_duration }}
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>Appointment Slot:</strong> {{ booking.booking_date }} at {{ booking.booking_time }}
+                        </div>
+                    </div>
+                    {% if booking.problem_description %}
+                        <div class="p-3 bg-light rounded-3 border mt-3 small">
+                            <strong>Customer Reported Issue:</strong>
+                            <p class="mb-0 text-secondary">{{ booking.problem_description }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Repair & Workshop Progress -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-wrench text-primary me-2"></i> Workshop & Repair Status</h5>
+                    {% if repair %}
+                        <span class="badge {% if repair.repair_status == 'Completed' %}bg-success{% elif repair.repair_status == 'In Progress' %}bg-primary{% else %}bg-secondary{% endif %}">
+                            {{ repair.repair_status }}
+                        </span>
+                    {% else %}
+                        <span class="badge bg-secondary">Not Initialized</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if repair %}
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small text-uppercase fw-bold mb-1">Technician Diagnosis</label>
+                                <p class="mb-0">{{ repair.diagnosis or 'Diagnosis pending.' }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small text-uppercase fw-bold mb-1">Work Performed</label>
+                                <p class="mb-0">{{ repair.work_performed or 'Service underway.' }}</p>
+                            </div>
+                        </div>
+
+                        {% if repair.repair_notes %}
+                            <div class="mb-3">
+                                <label class="form-label text-muted small text-uppercase fw-bold mb-1">Technician Notes</label>
+                                <p class="text-secondary small mb-0">{{ repair.repair_notes }}</p>
+                            </div>
+                        {% endif %}
+
+                        <!-- Spare Parts Used Table -->
+                        <h6 class="fw-bold text-dark mt-4 mb-2"><i class="bi bi-box-seam me-1"></i> Spare Parts Used</h6>
+                        {% if repair_parts %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Part Name</th>
+                                            <th>Part #</th>
+                                            <th>Qty</th>
+                                            <th>Unit Price</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for rp in repair_parts %}
+                                            <tr>
+                                                <td class="fw-semibold">{{ rp.part_name }}</td>
+                                                <td><code>{{ rp.part_number }}</code></td>
+                                                <td>{{ rp.quantity_used }}</td>
+                                                <td>₹{{ "%.2f"|format(rp.price_at_time_of_use) }}</td>
+                                                <td class="fw-bold">₹{{ "%.2f"|format(rp.quantity_used * rp.price_at_time_of_use) }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted small mb-0">No additional replacement parts have been recorded for this service.</p>
+                        {% endif %}
+
+                    {% else %}
+                        <p class="text-muted mb-0">
+                            Service work card will be opened once the administrator approves this booking.
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Bill & Invoicing Summary -->
+            {% if bill %}
+                <div class="card shadow-sm border-0 border-top border-4 border-success">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-receipt-cutoff text-success me-2"></i> Billing Information</h5>
+                        <span class="badge {% if bill.payment_status == 'Paid' %}bg-success{% else %}bg-warning text-dark{% endif %} fs-6">
+                            Payment: {{ bill.payment_status }}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-sm-4 text-center border-end">
+                                <small class="text-muted d-block">Service Labor</small>
+                                <span class="fs-5 fw-bold text-dark">₹{{ "%.2f"|format(bill.service_charge) }}</span>
+                            </div>
+                            <div class="col-sm-4 text-center border-end">
+                                <small class="text-muted d-block">Spare Parts</small>
+                                <span class="fs-5 fw-bold text-dark">₹{{ "%.2f"|format(bill.parts_charge) }}</span>
+                            </div>
+                            <div class="col-sm-4 text-center">
+                                <small class="text-muted d-block">Total Due</small>
+                                <span class="fs-4 fw-bold text-success">₹{{ "%.2f"|format(bill.total_amount) }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex justify-content-end gap-2">
+                            <a href="{{ url_for('billing.view_bill', bill_id=bill.id) }}" class="btn btn-outline-success">
+                                <i class="bi bi-eye me-1"></i> Full Invoice
+                            </a>
+                            {% if session.get('role') == 'admin' and bill.payment_status != 'Paid' %}
+                                <a href="{{ url_for('billing.record_payment', bill_id=bill.id) }}" class="btn btn-success fw-bold">
+                                    <i class="bi bi-cash me-1"></i> Record Payment
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

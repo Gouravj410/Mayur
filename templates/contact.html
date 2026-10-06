@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-lg-5">
+            <span class="badge bg-warning text-dark px-3 py-2 fw-semibold mb-2">Get In Touch</span>
+            <h2 class="fw-bold mb-4">Visit Our Service Center</h2>
+            <p class="text-muted mb-4">
+                Have questions regarding your vehicle maintenance schedule, spare parts availability, or booking status? Reach out to our dedicated service desk.
+            </p>
+
+            <div class="d-flex align-items-start gap-3 mb-4">
+                <div class="bg-primary text-white p-3 rounded-circle">
+                    <i class="bi bi-geo-alt-fill fs-5"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">Workshop Address</h6>
+                    <p class="text-muted mb-0">Plot 101, Auto Hub Industrial Estate, Central Ring Road, Pune - 411001</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3 mb-4">
+                <div class="bg-primary text-white p-3 rounded-circle">
+                    <i class="bi bi-telephone-fill fs-5"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">Service Hotline</h6>
+                    <p class="text-muted mb-0">+91 (020) 2555-0199 / +91 98765 43210</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3 mb-4">
+                <div class="bg-primary text-white p-3 rounded-circle">
+                    <i class="bi bi-envelope-fill fs-5"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">Email Support</h6>
+                    <p class="text-muted mb-0">support@carservice.com / admin@carservice.com</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3">
+                <div class="bg-primary text-white p-3 rounded-circle">
+                    <i class="bi bi-clock-fill fs-5"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1">Working Hours</h6>
+                    <p class="text-muted mb-0">Monday – Saturday: 8:30 AM – 7:30 PM<br>Sunday: Emergency & Pre-booked Only</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card p-4 shadow-sm border-0 rounded-4">
+                <h4 class="fw-bold mb-3">Send Us an Inquiry</h4>
+                <p class="text-muted small mb-4">Fill out the quick query form and our customer support supervisor will respond shortly.</p>
+                
+                <form method="POST" action="{{ url_for('public.contact_submit') }}">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Your Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone" class="form-control" placeholder="10-digit mobile number" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Vehicle Model & Registration (Optional)</label>
+                            <input type="text" name="vehicle_info" class="form-control" placeholder="e.g. Honda City (MH-12-AB-1234)">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Message / Problem Description</label>
+                            <textarea name="message" class="form-control" rows="4" placeholder="Describe your query or automobile issue..." required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">
+                                <i class="bi bi-send-fill me-1"></i> Submit Inquiry
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

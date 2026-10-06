@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Administrator Portal - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4 p-md-5 border-top border-4 border-danger">
+                <div class="text-center mb-4">
+                    <div class="bg-danger-subtle text-danger p-3 rounded-circle d-inline-block mb-2">
+                        <i class="bi bi-shield-lock-fill fs-2"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark">Admin Access Portal</h3>
+                    <p class="text-muted small">Service Center Operations, Inventory & Billing</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('auth.admin_login') }}">
+                    <div class="mb-3">
+                        <label for="admin_email" class="form-label">Administrator Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-envelope-at"></i></span>
+                            <input type="email" class="form-control" id="admin_email" name="email" value="{{ email or '' }}" placeholder="admin@carservice.com" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="admin_password" class="form-label">Admin Security Key / Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-key"></i></span>
+                            <input type="password" class="form-control" id="admin_password" name="password" placeholder="Enter password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100 py-2 fw-semibold mb-3">
+                        <i class="bi bi-shield-check me-1"></i> Authorize & Enter
+                    </button>
+                </form>
+
+                <!-- Quick Demo Fill Card for Viva -->
+                <div class="p-3 bg-light rounded-3 border mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <small class="fw-bold text-danger text-uppercase"><i class="bi bi-info-circle me-1"></i> Admin Demo Credentials</small>
+                        <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="fillAdminDemo()">
+                            <i class="bi bi-magic me-1"></i> Quick Fill
+                        </button>
+                    </div>
+                    <small class="d-block text-secondary">Email: <code>admin@carservice.com</code></small>
+                    <small class="d-block text-secondary">Password: <code>admin123</code></small>
+                </div>
+
+                <div class="text-center pt-2 border-top">
+                    <a href="{{ url_for('auth.login') }}" class="text-muted small text-decoration-none">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Customer Portal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function fillAdminDemo() {
+    document.getElementById('admin_email').value = 'admin@carservice.com';
+    document.getElementById('admin_password').value = 'admin123';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - AutoCareHub Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row align-items-center g-5 mb-5">
+        <div class="col-lg-6">
+            <span class="badge bg-warning text-dark px-3 py-2 fw-semibold mb-2">About AutoCareHub</span>
+            <h2 class="fw-bold mb-3">Comprehensive Digital Garage Management</h2>
+            <p class="text-muted leading-relaxed">
+                AutoCareHub is a comprehensive web-based Car Services, Repair and Management System designed to bridge the communication gap between vehicle owners and workshop service advisors.
+            </p>
+            <p class="text-muted">
+                Our platform digitizes traditional paper-based garage job cards into real-time digital records. From scheduling a service slot to monitoring mechanic diagnostics, spare parts replacement, and automated itemized invoices, every step is transparent and accountable.
+            </p>
+            <div class="row g-3 mt-3">
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span class="fw-semibold">100% Genuine OEM Spares</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span class="fw-semibold">Automated Itemized Bills</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span class="fw-semibold">Permanent Vehicle History</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span class="fw-semibold">Real-Time Status Tracking</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card p-4 shadow-sm border-0 bg-primary text-white rounded-4">
+                <h4 class="fw-bold mb-3"><i class="bi bi-mortarboard-fill me-2"></i> TY B.Sc. Computer Science Mini-Project</h4>
+                <p class="opacity-90">
+                    Developed as a practical demonstration of Relational Database Management Systems (RDBMS) paired with Python Flask and modern responsive web interfaces.
+                </p>
+                <hr class="border-light opacity-25">
+                <ul class="list-unstyled mb-0 d-grid gap-2 small">
+                    <li><i class="bi bi-layers-half me-2"></i> <strong>Architecture:</strong> Python 3 / Flask MVC Pattern</li>
+                    <li><i class="bi bi-database-check me-2"></i> <strong>Database:</strong> Relational MySQL with Foreign Key Constraints</li>
+                    <li><i class="bi bi-shield-lock me-2"></i> <strong>Security:</strong> Werkzeug Password Hashing & Role-Based Sessions</li>
+                    <li><i class="bi bi-palette me-2"></i> <strong>UI Design:</strong> Bootstrap 5 & Automotive Design System</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

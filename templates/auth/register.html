@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Create Customer Account - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow border-0 rounded-4 p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <div class="bg-warning-subtle text-warning-emphasis p-3 rounded-circle d-inline-block mb-2">
+                        <i class="bi bi-person-plus-fill fs-2 text-warning"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark">Customer Registration</h3>
+                    <p class="text-muted small">Create an account to book and manage vehicle services</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('auth.register') }}">
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                            <input type="text" class="form-control" id="full_name" name="full_name" value="{{ full_name or '' }}" placeholder="e.g. Ramesh Sharma" required>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ email or '' }}" placeholder="ramesh@example.com" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-telephone"></i></span>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{ phone or '' }}" placeholder="9876543210" pattern="[0-9]{10}" required>
+                            </div>
+                            <small class="text-muted">10 digit number</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address / Locality</label>
+                        <textarea class="form-control" id="address" name="address" rows="2" placeholder="Street, Apartment, City...">{{ address or '' }}</textarea>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Min 6 characters" minlength="6" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="confirm_password" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Re-type password" minlength="6" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 py-2 fw-bold mb-3">
+                        <i class="bi bi-check-circle-fill me-1"></i> Register Account
+                    </button>
+                </form>
+
+                <div class="text-center pt-2 border-top">
+                    <p class="text-muted small mb-0">
+                        Already have an account? 
+                        <a href="{{ url_for('auth.login') }}" class="text-primary fw-semibold text-decoration-none">Sign in here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

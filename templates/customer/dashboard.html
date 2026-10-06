@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Dashboard - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">
+                Hello, {{ customer.full_name }} 👋
+            </h2>
+            <p class="text-muted mb-0">Customer Portal &bull; {{ customer.email }} &bull; {{ customer.phone }}</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('vehicle.add_vehicle') }}" class="btn btn-outline-primary fw-semibold">
+                <i class="bi bi-plus-circle me-1"></i> Add Vehicle
+            </a>
+            <a href="{{ url_for('booking.book_service') }}" class="btn btn-warning fw-bold">
+                <i class="bi bi-calendar-plus me-1"></i> Book a Service
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Metric Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card p-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-semibold text-uppercase">My Vehicles</small>
+                        <div class="metric-value">{{ vehicle_count }}</div>
+                    </div>
+                    <div class="fs-1 text-primary"><i class="bi bi-car-front-fill"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card warning p-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-semibold text-uppercase">Active Bookings</small>
+                        <div class="metric-value">{{ active_bookings }}</div>
+                    </div>
+                    <div class="fs-1 text-warning"><i class="bi bi-hourglass-split"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card success p-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-semibold text-uppercase">Services Done</small>
+                        <div class="metric-value">{{ completed_bookings }}</div>
+                    </div>
+                    <div class="fs-1 text-success"><i class="bi bi-check-circle-fill"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card info p-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-semibold text-uppercase">Total Invoiced</small>
+                        <div class="metric-value">₹{{ "%.2f"|format(total_spent) }}</div>
+                    </div>
+                    <div class="fs-1 text-info"><i class="bi bi-cash-stack"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vehicles & Recent Bookings -->
+    <div class="row g-4">
+        <!-- My Registered Vehicles -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-car-front text-primary me-2"></i> My Garage</h5>
+                    <a href="{{ url_for('vehicle.list_vehicles') }}" class="btn btn-sm btn-outline-secondary">View All</a>
+                </div>
+                <div class="card-body p-3">
+                    {% if vehicles %}
+                        <div class="list-group list-group-flush">
+                            {% for v in vehicles %}
+                                <div class="list-group-item px-0 py-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="fw-bold mb-1">{{ v.brand }} {{ v.model }}</h6>
+                                            <span class="badge bg-dark font-monospace">{{ v.registration_number }}</span>
+                                            <small class="text-muted ms-2">{{ v.manufacturing_year }} &bull; {{ v.fuel_type }} &bull; {{ v.vehicle_color }}</small>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                Actions
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="{{ url_for('booking.book_service', vehicle_id=v.id) }}"><i class="bi bi-calendar-plus me-2"></i>Book Service</a></li>
+                                                <li><a class="dropdown-item" href="{{ url_for('history.vehicle_history', vehicle_id=v.id) }}"><i class="bi bi-journal-check me-2"></i>Service History</a></li>
+                                                <li><a class="dropdown-item" href="{{ url_for('vehicle.edit_vehicle', vehicle_id=v.id) }}"><i class="bi bi-pencil me-2"></i>Edit Details</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-car-front text-muted fs-1 mb-2 d-block"></i>
+                            <p class="text-muted mb-3">No vehicles added yet.</p>
+                            <a href="{{ url_for('vehicle.add_vehicle') }}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-plus-circle me-1"></i> Register Your First Vehicle
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Service Bookings -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm h-100">
+                <div class="card-header d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history text-primary me-2"></i> Recent Service Appointments</h5>
+                    <a href="{{ url_for('booking.my_bookings') }}" class="btn btn-sm btn-outline-secondary">View All</a>
+                </div>
+                <div class="card-body p-3">
+                    {% if bookings %}
+                        <div class="table-responsive">
+                            <table class="table align-middle table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Slot</th>
+                                        <th>Vehicle</th>
+                                        <th>Service</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for b in bookings %}
+                                        <tr>
+                                            <td>
+                                                <div class="fw-semibold">{{ b.booking_date }}</div>
+                                                <small class="text-muted">{{ b.booking_time }}</small>
+                                            </td>
+                                            <td>
+                                                <div class="fw-semibold">{{ b.brand }} {{ b.model }}</div>
+                                                <small class="text-muted">{{ b.registration_number }}</small>
+                                            </td>
+                                            <td>
+                                                <div>{{ b.service_name }}</div>
+                                                <small class="text-primary fw-semibold">₹{{ "%.2f"|format(b.base_price) }}</small>
+                                            </td>
+                                            <td>
+                                                {% if b.booking_status == 'Pending' %}
+                                                    <span class="badge bg-warning text-dark">Pending</span>
+                                                {% elif b.booking_status == 'Approved' %}
+                                                    <span class="badge bg-info text-dark">Approved</span>
+                                                {% elif b.booking_status == 'In Service' %}
+                                                    <span class="badge bg-primary">In Service</span>
+                                                {% elif b.booking_status == 'Completed' %}
+                                                    <span class="badge bg-success">Completed</span>
+                                                {% elif b.booking_status == 'Rejected' %}
+                                                    <span class="badge bg-danger">Rejected</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">Cancelled</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{{ url_for('booking.view_booking', booking_id=b.id) }}" class="btn btn-sm btn-outline-primary">
+                                                    Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-calendar-x text-muted fs-1 mb-2 d-block"></i>
+                            <p class="text-muted mb-3">No bookings placed yet.</p>
+                            <a href="{{ url_for('booking.book_service') }}" class="btn btn-sm btn-warning fw-bold">
+                                Book Your First Service
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

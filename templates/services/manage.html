@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Service Catalog - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-gear-wide-connected text-primary me-2"></i> Service Packages Catalog</h2>
+            <p class="text-muted mb-0">Configure available automobile service offerings, standard pricing, and durations</p>
+        </div>
+        <a href="{{ url_for('service.add_service') }}" class="btn btn-primary fw-semibold">
+            <i class="bi bi-plus-circle me-1"></i> Add New Service
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#ID</th>
+                            <th>Service Name</th>
+                            <th>Description</th>
+                            <th>Base Price</th>
+                            <th>Est. Duration</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in services %}
+                            <tr>
+                                <td class="fw-bold text-muted">#{{ s.id }}</td>
+                                <td class="fw-bold text-dark">{{ s.service_name }}</td>
+                                <td class="small text-muted" style="max-width: 320px;">{{ s.description }}</td>
+                                <td class="fw-bold text-primary">₹{{ "%.2f"|format(s.base_price) }}</td>
+                                <td><span class="badge bg-light text-dark border">{{ s.estimated_duration }}</span></td>
+                                <td>
+                                    {% if s.status == 'active' %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <div class="d-inline-flex gap-2">
+                                        <a href="{{ url_for('service.edit_service', service_id=s.id) }}" class="btn btn-sm btn-outline-secondary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form method="POST" action="{{ url_for('service.toggle_service_status', service_id=s.id) }}" class="d-inline">
+                                            <button type="submit" class="btn btn-sm {% if s.status == 'active' %}btn-outline-warning{% else %}btn-outline-success{% endif %}" title="Toggle Active / Inactive">
+                                                {% if s.status == 'active' %}
+                                                    <i class="bi bi-pause-circle"></i>
+                                                {% else %}
+                                                    <i class="bi bi-play-circle"></i>
+                                                {% endif %}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

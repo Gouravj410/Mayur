@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Billing & Revenue Management - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-cash-stack text-primary me-2"></i> Billing & Revenue Management</h2>
+            <p class="text-muted mb-0">Monitor service charges, parts revenue, and process customer payments</p>
+        </div>
+    </div>
+
+    <!-- Revenue KPI Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-sm-4">
+            <div class="card p-3 shadow-sm border-0">
+                <small class="text-muted text-uppercase fw-bold">Total Invoiced Amount</small>
+                <div class="fs-2 fw-bold text-dark">₹{{ "%.2f"|format(total_billed) }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card p-3 shadow-sm border-0 border-start border-4 border-success">
+                <small class="text-muted text-uppercase fw-bold">Collected / Paid Revenue</small>
+                <div class="fs-2 fw-bold text-success">₹{{ "%.2f"|format(total_collected) }}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card p-3 shadow-sm border-0 border-start border-4 border-warning">
+                <small class="text-muted text-uppercase fw-bold">Pending Payment Receivables</small>
+                <div class="fs-2 fw-bold text-warning">₹{{ "%.2f"|format(total_pending) }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Pills -->
+    <div class="mb-4 d-flex flex-wrap gap-2">
+        <a href="{{ url_for('billing.admin_billing') }}" class="btn btn-sm {% if not current_status %}btn-dark{% else %}btn-outline-secondary{% endif %}">
+            All Invoices
+        </a>
+        <a href="{{ url_for('billing.admin_billing', status='Pending') }}" class="btn btn-sm {% if current_status == 'Pending' %}btn-warning text-dark{% else %}btn-outline-secondary{% endif %}">
+            <i class="bi bi-clock me-1"></i> Pending Payment
+        </a>
+        <a href="{{ url_for('billing.admin_billing', status='Paid') }}" class="btn btn-sm {% if current_status == 'Paid' %}btn-success{% else %}btn-outline-secondary{% endif %}">
+            <i class="bi bi-check-circle me-1"></i> Paid
+        </a>
+    </div>
+
+    {% if bills %}
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#Bill No.</th>
+                                <th>Booking #</th>
+                                <th>Customer</th>
+                                <th>Vehicle</th>
+                                <th>Labor Charge</th>
+                                <th>Parts Charge</th>
+                                <th>Total Bill</th>
+                                <th>Status</th>
+                                <th>Payment Method</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for b in bills %}
+                                <tr>
+                                    <td class="fw-bold text-muted">#INV-{{ b.id }}</td>
+                                    <td>
+                                        <a href="{{ url_for('booking.view_booking', booking_id=b.booking_id) }}" class="fw-bold text-decoration-none">
+                                            #BK-{{ b.booking_id }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold">{{ b.customer_name }}</div>
+                                        <small class="text-muted">{{ b.customer_phone }}</small>
+                                    </td>
+                                    <td>
+                                        <div>{{ b.brand }} {{ b.model }}</div>
+                                        <span class="badge bg-dark font-monospace">{{ b.registration_number }}</span>
+                                    </td>
+                                    <td>₹{{ "%.2f"|format(b.service_charge) }}</td>
+                                    <td>₹{{ "%.2f"|format(b.parts_charge) }}</td>
+                                    <td class="fw-bold fs-6 text-primary">₹{{ "%.2f"|format(b.total_amount) }}</td>
+                                    <td>
+                                        {% if b.payment_status == 'Paid' %}
+                                            <span class="badge bg-success">Paid</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if b.payment_method %}
+                                            <span class="badge bg-light text-dark border">{{ b.payment_method }}</span>
+                                        {% else %}
+                                            <span class="text-muted small">&mdash;</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="d-inline-flex gap-1">
+                                            <a href="{{ url_for('billing.view_bill', bill_id=b.id) }}" class="btn btn-sm btn-outline-primary" title="View Full Invoice">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            {% if b.payment_status != 'Paid' %}
+                                                <a href="{{ url_for('billing.record_payment', bill_id=b.id) }}" class="btn btn-sm btn-success fw-semibold" title="Record Payment">
+                                                    <i class="bi bi-cash"></i> Pay
+                                                </a>
+                                            {% endif %}
+                                            <a href="{{ url_for('billing.edit_bill', bill_id=b.id) }}" class="btn btn-sm btn-outline-secondary" title="Edit Service Charges">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card p-5 text-center shadow-sm border-0">
+            <div class="mb-3 text-muted"><i class="bi bi-receipt fs-1"></i></div>
+            <h4 class="fw-bold">No Invoices Found</h4>
+            <p class="text-muted mb-0">Invoices are automatically produced upon service completion or job card creation.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

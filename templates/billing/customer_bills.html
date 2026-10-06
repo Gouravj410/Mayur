@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}My Invoices & Bills - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-receipt text-primary me-2"></i> My Service Invoices</h2>
+            <p class="text-muted mb-0">View itemized billing records, spare parts expenses, and receipts</p>
+        </div>
+    </div>
+
+    {% if bills %}
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Invoice #</th>
+                                <th>Date</th>
+                                <th>Vehicle</th>
+                                <th>Service Package</th>
+                                <th>Labor Charge</th>
+                                <th>Parts Charge</th>
+                                <th>Total Bill</th>
+                                <th>Payment Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for b in bills %}
+                                <tr>
+                                    <td class="fw-bold text-muted">#INV-{{ b.id }}</td>
+                                    <td>{{ b.bill_date }}</td>
+                                    <td>
+                                        <div class="fw-semibold">{{ b.brand }} {{ b.model }}</div>
+                                        <span class="badge bg-dark font-monospace">{{ b.registration_number }}</span>
+                                    </td>
+                                    <td>{{ b.service_name }}</td>
+                                    <td>₹{{ "%.2f"|format(b.service_charge) }}</td>
+                                    <td>₹{{ "%.2f"|format(b.parts_charge) }}</td>
+                                    <td class="fw-bold fs-6 text-primary">₹{{ "%.2f"|format(b.total_amount) }}</td>
+                                    <td>
+                                        {% if b.payment_status == 'Paid' %}
+                                            <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> Paid ({{ b.payment_method or 'Cash' }})</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark"><i class="bi bi-clock me-1"></i> Payment Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('billing.view_bill', bill_id=b.id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-file-earmark-text me-1"></i> View / Print
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card p-5 text-center shadow-sm border-0">
+            <div class="mb-3 text-muted"><i class="bi bi-receipt-cutoff fs-1"></i></div>
+            <h4 class="fw-bold">No Invoices Yet</h4>
+            <p class="text-muted mb-0">Your service invoices will appear here once service work is completed by the workshop.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

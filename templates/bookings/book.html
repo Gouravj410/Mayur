@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Book a Service Appointment - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5">
+                <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                    <div class="bg-warning text-dark p-3 rounded-circle">
+                        <i class="bi bi-calendar-check-fill fs-3"></i>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0">Schedule Service Appointment</h3>
+                        <p class="text-muted small mb-0">Select your vehicle, service package, and preferred visit slot</p>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ url_for('booking.book_service') }}">
+                    <!-- Vehicle Selection -->
+                    <div class="mb-4">
+                        <label class="form-label d-flex justify-content-between align-items-center">
+                            <span>Select Vehicle <span class="text-danger">*</span></span>
+                            <a href="{{ url_for('vehicle.add_vehicle') }}" class="small text-decoration-none">
+                                <i class="bi bi-plus-circle"></i> Add another vehicle
+                            </a>
+                        </label>
+                        <select name="vehicle_id" class="form-select form-select-lg" required>
+                            <option value="" disabled {% if not selected_vehicle_id %}selected{% endif %}>Choose your registered car...</option>
+                            {% for v in vehicles %}
+                                <option value="{{ v.id }}" {% if selected_vehicle_id == v.id %}selected{% endif %}>
+                                    {{ v.brand }} {{ v.model }} ({{ v.registration_number }}) - {{ v.fuel_type }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Service Selection -->
+                    <div class="mb-4">
+                        <label class="form-label">Select Service Package <span class="text-danger">*</span></label>
+                        <select name="service_id" id="service_select" class="form-select form-select-lg" required onchange="updateServiceInfo()">
+                            <option value="" disabled {% if not selected_service_id %}selected{% endif %}>Choose service package...</option>
+                            {% for s in services %}
+                                <option value="{{ s.id }}" data-price="{{ s.base_price }}" data-desc="{{ s.description }}" data-time="{{ s.estimated_duration }}" {% if selected_service_id == s.id %}selected{% endif %}>
+                                    {{ s.service_name }} — ₹{{ "%.2f"|format(s.base_price) }} (Est: {{ s.estimated_duration }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div id="service_info_box" class="p-3 bg-light rounded-3 border mt-2 small text-muted d-none">
+                            <span id="service_desc_text"></span>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Date & Time -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Preferred Appointment Date <span class="text-danger">*</span></label>
+                            <input type="date" id="booking_date" name="booking_date" class="form-control" required>
+                            <small class="text-muted">Monday through Saturday</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Preferred Time Slot <span class="text-danger">*</span></label>
+                            <select name="booking_time" class="form-select" required>
+                                <option value="" disabled selected>Select Slot</option>
+                                <option value="09:00 AM - 11:00 AM">09:00 AM - 11:00 AM (Morning)</option>
+                                <option value="11:30 AM - 01:30 PM">11:30 AM - 01:30 PM (Mid-day)</option>
+                                <option value="02:30 PM - 04:30 PM">02:30 PM - 04:30 PM (Afternoon)</option>
+                                <option value="05:00 PM - 07:00 PM">05:00 PM - 07:00 PM (Evening)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Problem Description -->
+                    <div class="mb-4">
+                        <label class="form-label">Specific Concerns / Problem Description (Optional)</label>
+                        <textarea name="problem_description" class="form-control" rows="3" placeholder="Describe any unusual vibrations, warning lights, brake noises, AC inefficiency, etc."></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <a href="{{ url_for('customer.dashboard') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning fw-bold px-5 py-2">
+                            <i class="bi bi-calendar2-check-fill me-1"></i> Confirm Appointment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function updateServiceInfo() {
+    const sel = document.getElementById('service_select');
+    const box = document.getElementById('service_info_box');
+    const text = document.getElementById('service_desc_text');
+    if (sel.selectedIndex > 0) {
+        const opt = sel.options[sel.selectedIndex];
+        const desc = opt.getAttribute('data-desc');
+        if (desc) {
+            text.innerHTML = '<strong>Scope of Work:</strong> ' + desc;
+            box.classList.remove('d-none');
+            return;
+        }
+    }
+    box.classList.add('d-none');
+}
+
+document.addEventListener('DOMContentLoaded', updateServiceInfo);
+</script>
+{% endblock %}

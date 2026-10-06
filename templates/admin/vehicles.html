@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}All Registered Vehicles - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-car-front-fill text-primary me-2"></i> All Registered Vehicles</h2>
+            <p class="text-muted mb-0">Master catalog of customer automobiles registered in the system</p>
+        </div>
+    </div>
+
+    {% if vehicles %}
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#ID</th>
+                                <th>Registration</th>
+                                <th>Make & Model</th>
+                                <th>Mfg Year</th>
+                                <th>Fuel</th>
+                                <th>Color</th>
+                                <th>Owner Name</th>
+                                <th>Contact</th>
+                                <th>Total Visits</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for v in vehicles %}
+                                <tr>
+                                    <td class="fw-bold text-muted">#VEH-{{ v.id }}</td>
+                                    <td><span class="badge bg-dark font-monospace fs-6">{{ v.registration_number }}</span></td>
+                                    <td class="fw-bold text-dark">{{ v.brand }} {{ v.model }}</td>
+                                    <td>{{ v.manufacturing_year }}</td>
+                                    <td><span class="badge bg-light text-dark border">{{ v.fuel_type }}</span></td>
+                                    <td>{{ v.vehicle_color }}</td>
+                                    <td class="fw-semibold">{{ v.owner_name }}</td>
+                                    <td>
+                                        <small class="text-muted d-block">{{ v.owner_phone }}</small>
+                                    </td>
+                                    <td><span class="badge bg-info-subtle text-info-emphasis">{{ v.booking_count }} visits</span></td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('history.vehicle_history', vehicle_id=v.id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-journal-text me-1"></i> Full History
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="card p-5 text-center shadow-sm border-0">
+            <h4 class="fw-bold">No Vehicles Registered</h4>
+            <p class="text-muted mb-0">No automobiles are currently on record.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

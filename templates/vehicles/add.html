@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Add Vehicle - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5">
+                <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                    <div class="bg-primary text-white p-3 rounded-circle">
+                        <i class="bi bi-car-front-fill fs-3"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">Register New Vehicle</h4>
+                        <p class="text-muted small mb-0">Add your automobile details to your garage</p>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ url_for('vehicle.add_vehicle') }}">
+                    <div class="mb-3">
+                        <label class="form-label">Vehicle Registration Number <span class="text-danger">*</span></label>
+                        <input type="text" name="registration_number" class="form-control text-uppercase font-monospace" placeholder="e.g. MH-12-AB-1234" value="{{ form.get('registration_number', '') }}" required>
+                        <small class="text-muted">Must be a unique state vehicle license plate number</small>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Brand / Make <span class="text-danger">*</span></label>
+                            <input type="text" name="brand" class="form-control" placeholder="e.g. Honda, Maruti, Hyundai, Tata" value="{{ form.get('brand', '') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Model <span class="text-danger">*</span></label>
+                            <input type="text" name="model" class="form-control" placeholder="e.g. City, Swift, Creta, Nexon" value="{{ form.get('model', '') }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Mfg. Year <span class="text-danger">*</span></label>
+                            <input type="number" name="manufacturing_year" class="form-control" placeholder="2021" min="1980" max="2027" value="{{ form.get('manufacturing_year', '') }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fuel Type <span class="text-danger">*</span></label>
+                            <select name="fuel_type" class="form-select" required>
+                                <option value="" disabled {% if not form.get('fuel_type') %}selected{% endif %}>Select</option>
+                                <option value="Petrol" {% if form.get('fuel_type') == 'Petrol' %}selected{% endif %}>Petrol</option>
+                                <option value="Diesel" {% if form.get('fuel_type') == 'Diesel' %}selected{% endif %}>Diesel</option>
+                                <option value="CNG" {% if form.get('fuel_type') == 'CNG' %}selected{% endif %}>CNG</option>
+                                <option value="Electric" {% if form.get('fuel_type') == 'Electric' %}selected{% endif %}>Electric</option>
+                                <option value="Hybrid" {% if form.get('fuel_type') == 'Hybrid' %}selected{% endif %}>Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Color <span class="text-danger">*</span></label>
+                            <input type="text" name="vehicle_color" class="form-control" placeholder="e.g. Silver, White, Red" value="{{ form.get('vehicle_color', '') }}" required>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('vehicle.list_vehicles') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning fw-bold px-4">
+                            <i class="bi bi-check-lg me-1"></i> Save Vehicle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

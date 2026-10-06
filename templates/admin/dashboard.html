@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - AutoCareHub{% endblock %}
+
+{% block extra_head %}
+<!-- Chart.js for viva presentation -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-4 py-4">
+    <!-- Top Welcome Banner -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-speedometer2 text-danger me-2"></i> Workshop Operations Dashboard</h2>
+            <p class="text-muted mb-0">Overview of active vehicle services, pending bookings, parts stock, and revenue</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('parts.add_part') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-box-seam me-1"></i> Add Part
+            </a>
+            <a href="{{ url_for('service.add_service') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-tools me-1"></i> Add Service
+            </a>
+            <a href="{{ url_for('report.reports_dashboard') }}" class="btn btn-primary btn-sm fw-semibold">
+                <i class="bi bi-file-earmark-bar-graph me-1"></i> View Reports
+            </a>
+        </div>
+    </div>
+
+    <!-- 8 Key Metrics Cards Grid -->
+    <div class="row g-3 mb-4">
+        <!-- 1. Total Customers -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Total Customers</small>
+                        <div class="metric-value">{{ total_customers }}</div>
+                    </div>
+                    <div class="fs-1 text-primary"><i class="bi bi-people-fill"></i></div>
+                </div>
+                <a href="{{ url_for('admin.list_customers') }}" class="small text-decoration-none mt-2 d-inline-block">View all customers &rarr;</a>
+            </div>
+        </div>
+
+        <!-- 2. Total Vehicles -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card info p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Registered Vehicles</small>
+                        <div class="metric-value">{{ total_vehicles }}</div>
+                    </div>
+                    <div class="fs-1 text-info"><i class="bi bi-car-front-fill"></i></div>
+                </div>
+                <a href="{{ url_for('admin.list_all_vehicles') }}" class="small text-decoration-none mt-2 d-inline-block">View all vehicles &rarr;</a>
+            </div>
+        </div>
+
+        <!-- 3. Pending Bookings -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card warning p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Pending Bookings</small>
+                        <div class="metric-value">{{ pending_bookings }}</div>
+                    </div>
+                    <div class="fs-1 text-warning"><i class="bi bi-clock-history"></i></div>
+                </div>
+                <a href="{{ url_for('booking.admin_bookings', status='Pending') }}" class="small text-decoration-none mt-2 d-inline-block">Review requests &rarr;</a>
+            </div>
+        </div>
+
+        <!-- 4. Active in Workshop -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card primary p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Active In Service</small>
+                        <div class="metric-value">{{ active_services }}</div>
+                    </div>
+                    <div class="fs-1 text-primary"><i class="bi bi-wrench-adjustable-circle-fill"></i></div>
+                </div>
+                <a href="{{ url_for('repair.admin_repairs', status='In Progress') }}" class="small text-decoration-none mt-2 d-inline-block">View bay progress &rarr;</a>
+            </div>
+        </div>
+
+        <!-- 5. Completed Services -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card success p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Completed Services</small>
+                        <div class="metric-value">{{ completed_services }}</div>
+                    </div>
+                    <div class="fs-1 text-success"><i class="bi bi-check-circle-fill"></i></div>
+                </div>
+                <a href="{{ url_for('booking.admin_bookings', status='Completed') }}" class="small text-decoration-none mt-2 d-inline-block">View completed &rarr;</a>
+            </div>
+        </div>
+
+        <!-- 6. Total Spare Parts & Stock -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card secondary p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Spare Parts (Types/Qty)</small>
+                        <div class="metric-value">{{ total_spare_parts }} <span class="fs-6 text-muted">({{ total_parts_stock }} units)</span></div>
+                    </div>
+                    <div class="fs-1 text-secondary"><i class="bi bi-box-seam-fill"></i></div>
+                </div>
+                <a href="{{ url_for('parts.list_parts') }}" class="small text-decoration-none mt-2 d-inline-block">Manage stock &rarr;</a>
+            </div>
+        </div>
+
+        <!-- 7. Total Realized Revenue -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card success p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Collected Revenue</small>
+                        <div class="metric-value text-success">₹{{ "%.2f"|format(total_revenue) }}</div>
+                    </div>
+                    <div class="fs-1 text-success"><i class="bi bi-cash-stack"></i></div>
+                </div>
+                <a href="{{ url_for('billing.admin_billing', status='Paid') }}" class="small text-decoration-none mt-2 d-inline-block">Payment ledger &rarr;</a>
+            </div>
+        </div>
+
+        <!-- 8. Pending Payments -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="card metric-card danger p-3 shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase">Pending Payments</small>
+                        <div class="metric-value text-danger">₹{{ "%.2f"|format(pending_amount) }}</div>
+                    </div>
+                    <div class="fs-1 text-danger"><i class="bi bi-exclamation-octagon-fill"></i></div>
+                </div>
+                <a href="{{ url_for('billing.admin_billing', status='Pending') }}" class="small text-decoration-none mt-2 d-inline-block">{{ pending_payments_count }} bills pending &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart + Recent Bookings Row -->
+    <div class="row g-4 mb-4">
+        <!-- Service Distribution Chart -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-pie-chart-fill text-primary me-2"></i> Service Packages Demand</h5>
+                </div>
+                <div class="card-body p-4 d-flex align-items-center justify-content-center">
+                    <canvas id="serviceChart" style="max-height: 280px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Bookings Table -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-list-check text-primary me-2"></i> Latest Service Bookings</h5>
+                    <a href="{{ url_for('booking.admin_bookings') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Booking #</th>
+                                    <th>Customer</th>
+                                    <th>Vehicle</th>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for b in recent_bookings %}
+                                    <tr>
+                                        <td class="fw-bold text-muted">#BK-{{ b.id }}</td>
+                                        <td>
+                                            <div class="fw-semibold">{{ b.customer_name }}</div>
+                                            <small class="text-muted">{{ b.phone }}</small>
+                                        </td>
+                                        <td>
+                                            <div>{{ b.brand }} {{ b.model }}</div>
+                                            <span class="badge bg-dark font-monospace">{{ b.registration_number }}</span>
+                                        </td>
+                                        <td>{{ b.service_name }}</td>
+                                        <td>
+                                            {% if b.booking_status == 'Pending' %}
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            {% elif b.booking_status == 'Approved' %}
+                                                <span class="badge bg-info text-dark">Approved</span>
+                                            {% elif b.booking_status == 'In Service' %}
+                                                <span class="badge bg-primary">In Service</span>
+                                            {% elif b.booking_status == 'Completed' %}
+                                                <span class="badge bg-success">Completed</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ b.booking_status }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ url_for('booking.view_booking', booking_id=b.id) }}" class="btn btn-sm btn-outline-secondary">
+                                                Manage
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('serviceChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ chart_labels|tojson }},
+                datasets: [{
+                    data: {{ chart_data|tojson }},
+                    backgroundColor: [
+                        '#0d6efd', '#f59e0b', '#10b981', '#06b6d4',
+                        '#6366f1', '#ec4899', '#8b5cf6', '#64748b'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, font: { size: 11 } }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

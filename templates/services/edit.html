@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Service Package - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5">
+                <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                    <div class="bg-secondary text-white p-3 rounded-circle">
+                        <i class="bi bi-pencil-square fs-3"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-0">Modify Service Package</h4>
+                        <p class="text-muted small mb-0">{{ service.service_name }}</p>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ url_for('service.edit_service', service_id=service.id) }}">
+                    <div class="mb-3">
+                        <label class="form-label">Service Package Name <span class="text-danger">*</span></label>
+                        <input type="text" name="service_name" class="form-control" value="{{ service.service_name }}" required>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Base Service Charge (₹) <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" name="base_price" class="form-control" value="{{ service.base_price }}" min="0" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Estimated Duration</label>
+                            <input type="text" name="estimated_duration" class="form-control" value="{{ service.estimated_duration }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Scope of Work & Description</label>
+                        <textarea name="description" class="form-control" rows="4">{{ service.description }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Catalog Status</label>
+                        <select name="status" class="form-select">
+                            <option value="active" {% if service.status == 'active' %}selected{% endif %}>Active (Available for customer booking)</option>
+                            <option value="inactive" {% if service.status == 'inactive' %}selected{% endif %}>Inactive (Hidden from booking form)</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('service.manage_services') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary fw-semibold px-4">
+                            <i class="bi bi-save me-1"></i> Update Service
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

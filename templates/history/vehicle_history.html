@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Service History: {{ vehicle.brand }} {{ vehicle.model }} - AutoCareHub{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <div class="d-flex align-items-center gap-2">
+                <h2 class="fw-bold mb-0">{{ vehicle.brand }} {{ vehicle.model }}</h2>
+                <span class="badge bg-dark font-monospace fs-5">{{ vehicle.registration_number }}</span>
+            </div>
+            <p class="text-muted mb-0">Permanent vehicle lifecycle maintenance logs and expenses</p>
+        </div>
+        <div class="d-flex gap-2">
+            {% if session.get('role') == 'customer' %}
+                <a href="{{ url_for('vehicle.list_vehicles') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Garage
+                </a>
+                <a href="{{ url_for('booking.book_service', vehicle_id=vehicle.id) }}" class="btn btn-warning fw-bold">
+                    <i class="bi bi-calendar-plus me-1"></i> Book Service
+                </a>
+            {% else %}
+                <a href="{{ url_for('admin.list_all_vehicles') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Vehicles
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Vehicle Details & Expense Stats Card -->
+    <div class="card shadow-sm border-0 mb-4 bg-light">
+        <div class="card-body p-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-8">
+                    <div class="row g-3 small">
+                        <div class="col-sm-4">
+                            <span class="text-muted d-block">Owner</span>
+                            <span class="fw-bold">{{ owner.full_name if owner else 'Customer' }}</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="text-muted d-block">Manufacturing Year</span>
+                            <span class="fw-bold">{{ vehicle.manufacturing_year }}</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="text-muted d-block">Fuel Type</span>
+                            <span class="badge bg-secondary">{{ vehicle.fuel_type }}</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="text-muted d-block">Vehicle Color</span>
+                            <span class="fw-bold">{{ vehicle.vehicle_color }}</span>
+                        </div>
+                        <div class="col-sm-4">
+                            <span class="text-muted d-block">Completed Visits</span>
+                            <span class="fw-bold text-success">{{ records|length }} times</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end border-start">
+                    <small class="text-muted text-uppercase fw-bold d-block">Lifetime Maintenance Spend</small>
+                    <span class="fs-2 fw-bold text-primary">₹{{ "%.2f"|format(total_expenditure) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if records %}
+        <div class="d-grid gap-4">
+            {% for r in records %}
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom">
+                        <div>
+                            <h5 class="fw-bold mb-0 text-dark">{{ r.service_name }}</h5>
+                            <small class="text-muted">Serviced: {{ r.booking_date }} at {{ r.booking_time }}</small>
+                        </div>
+                        <div>
+                            <span class="badge bg-success fs-6">Service Completed</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <div class="col-md-8">
+                                {% if r.diagnosis %}
+                                    <div class="mb-3">
+                                        <h6 class="fw-bold text-secondary mb-1">Diagnosis</h6>
+                                        <p class="text-muted small mb-0">{{ r.diagnosis }}</p>
+                                    </div>
+                                {% endif %}
+                                {% if r.work_performed %}
+                                    <div class="mb-3">
+                                        <h6 class="fw-bold text-secondary mb-1">Work Performed</h6>
+                                        <p class="text-muted small mb-0">{{ r.work_performed }}</p>
+                                    </div>
+                                {% endif %}
+
+                                {% if r.parts %}
+                                    <h6 class="fw-bold text-secondary mb-2">Parts Replaced</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered small mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Part Name</th>
+                                                    <th>Part #</th>
+                                                    <th>Qty</th>
+                                                    <th>Price</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for p in r.parts %}
+                                                    <tr>
+                                                        <td>{{ p.part_name }}</td>
+                                                        <td><code>{{ p.part_number }}</code></td>
+                                                        <td>{{ p.quantity_used }}</td>
+                                                        <td>₹{{ "%.2f"|format(p.price_at_time_of_use) }}</td>
+                                                        <td class="fw-bold">₹{{ "%.2f"|format(p.quantity_used * p.price_at_time_of_use) }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <div class="d-flex justify-content-between small text-muted mb-1">
+                                        <span>Labor Charge:</span>
+                                        <span class="fw-semibold text-dark">₹{{ "%.2f"|format(r.service_charge or 0.0) }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-muted mb-2">
+                                        <span>Parts Charge:</span>
+                                        <span class="fw-semibold text-dark">₹{{ "%.2f"|format(r.parts_charge or 0.0) }}</span>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="d-flex justify-content-between fs-5 fw-bold text-dark mb-2">
+                                        <span>Total:</span>
+                                        <span class="text-primary">₹{{ "%.2f"|format(r.total_amount or 0.0) }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        {% if r.payment_status == 'Paid' %}
+                                            <span class="badge bg-success">Paid ({{ r.payment_method or 'Cash' }})</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if r.bill_id %}
+                                        <a href="{{ url_for('billing.view_bill', bill_id=r.bill_id) }}" class="btn btn-outline-success btn-sm w-100">
+                                            <i class="bi bi-file-earmark-text me-1"></i> Tax Invoice
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card p-5 text-center shadow-sm border-0">
+            <div class="mb-3 text-muted"><i class="bi bi-clock-history fs-1"></i></div>
+            <h4 class="fw-bold">No Completed Records Yet</h4>
+            <p class="text-muted mb-0">This car has no completed workshop records on file.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
