@@ -5,6 +5,14 @@ Built with **Python (Flask)**, **MySQL / SQLite**, **Bootstrap 5**, and **JavaSc
 
 ---
 
+## 🌐 Live Deployment & Online Showcase
+
+- 🚀 **Live GitHub Pages Interactive Portal:** [https://gouravj410.github.io/Mayur/](https://gouravj410.github.io/Mayur/)
+- 📦 **GitHub Repository:** [https://github.com/Gouravj410/Mayur](https://github.com/Gouravj410/Mayur)
+- ☁️ **1-Click Cloud Deployment:** Pre-configured with `render.yaml` for Render, `Dockerfile` & `docker-compose.yml` for containers, and `Procfile` + `wsgi.py` for Gunicorn WSGI.
+
+---
+
 ## 📌 1. Project Overview & Purpose
 
 The **Car Services, Repair and Management System** digitizes workshop operations and bridges communication between vehicle owners and service center administrators:

@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: autocarehub_web
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - DB_TYPE=sqlite
+      - SECRET_KEY=production_secret_key_autocarehub_2026
+    volumes:
+      - ./car_service.db:/app/car_service.db
+    restart: unless-stopped
