@@ -1,6 +1,6 @@
 # 🚗 Car Services, Repair and Management System (AutoCareHub)
 
-A complete, practical, database-driven web application designed for a **TY B.Sc. Computer Science Mini-Project**.  
+A comprehensive, production-grade automotive service center, garage operations, and fleet maintenance platform.  
 Built with **Python (Flask)**, **MySQL / SQLite**, **Bootstrap 5**, and **JavaScript**.
 
 ---
@@ -55,14 +55,14 @@ The **Car Services, Repair and Management System** digitizes workshop operations
 
 ---
 
-## 🔑 4. Default Demo Credentials (For Viva Examination)
+## 🔑 4. Default Demonstration & Testing Credentials
 
 | Role | Email Address | Password | Features / Access |
 | :--- | :--- | :--- | :--- |
 | **Administrator** | `admin@carservice.com` | `admin123` | Full workshop control, bay management, inventory, reports |
 | **Customer** | `customer@carservice.com` | `customer123` | Garage management, booking slots, invoices, service history |
 
-*(Tip: Both login pages feature a **Quick Fill** button to populate demo credentials with a single click during live viva presentations).*
+*(Tip: Both login pages feature a **Quick Fill** button to populate demo credentials with a single click for rapid system testing and functional walkthroughs).*
 
 ---
 
@@ -75,7 +75,7 @@ Mayur/
 ├── requirements.txt            # Python Dependencies
 ├── .env.example                # Environment Variable Template
 ├── .env                        # Local Environment Settings
-├── README.md                   # Project Documentation & Viva Guide
+├── README.md                   # Project Documentation & Architecture Guide
 ├── test_workflow.py            # Automated End-to-End Workflow Test Suite
 │
 ├── database/
@@ -100,7 +100,7 @@ Mayur/
 ├── templates/
 │   ├── base.html               # Base layout (Navbar, Footer, Flash alerts)
 │   ├── index.html              # Landing page with hero & packages
-│   ├── about.html              # About Us & college project info
+│   ├── about.html              # About Us & platform capabilities
 │   ├── contact.html            # Workshop address & inquiry form
 │   ├── public_services.html    # Public service catalog
 │   ├── auth/                   # Login, Register, Admin login
@@ -146,7 +146,7 @@ MYSQL_PASSWORD=
 MYSQL_DB=car_service_db
 DB_TYPE=auto
 ```
-> **Note on Portability:** `DB_TYPE=auto` connects to MySQL when your MySQL server is running. If MySQL is offline during offline evaluation, the application automatically uses the local SQLite database (`car_service.db`) so your demo never fails!
+> **Note on Portability & Resilience:** `DB_TYPE=auto` connects to MySQL when a dedicated MySQL server is running. If MySQL is offline or during standalone on-premise deployments, the application automatically uses the local SQLite database (`car_service.db`) so your services operate without interruption!
 
 ### Step 4: Initialize Database (Optional - Done Automatically on Startup)
 ```bash
@@ -180,7 +180,7 @@ This automatically verifies:
 
 ---
 
-## 🎓 8. Viva Questions & Architectural Answers
+## 🏛️ 8. Core Technical Architecture & Engineering FAQs
 
 **Q1: How are primary keys and foreign keys implemented?**  
 *Answer:* Every table has an auto-incrementing integer `id` as primary key. For example, `vehicles.customer_id` references `users.id`, `bookings.vehicle_id` references `vehicles.id`, and `repair_parts` acts as an associative junction table linking `repairs` to `spare_parts`.

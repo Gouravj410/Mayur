@@ -1,6 +1,6 @@
 -- =======================================================
 -- CAR SERVICES, REPAIR AND MANAGEMENT SYSTEM
--- TY B.Sc. Computer Science Mini-Project
+-- AutoCareHub Enterprise Database Architecture
 -- Database: MySQL Relational Schema
 -- =======================================================
 
