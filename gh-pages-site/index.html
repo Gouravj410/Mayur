@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoCareHub — Intelligent Automobile Workshop & Fleet Operations Platform</title>
-  <meta name="description" content="Production-ready enterprise operating system for modern auto repair centers, multi-bay service workshops, and corporate fleet managers.">
+  <title>AutoCareHub — Professional Car Care, Repairs & Live Workshop Tracking</title>
+  <meta name="description" content="Book certified automobile service, routine maintenance, diagnostics, and track your car's repair status in real time. Genuine parts and upfront pricing.">
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,9 +12,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 
   <style>
     :root {
@@ -23,7 +20,7 @@
       --success-accent: #10b981;
       --warning-accent: #f59e0b;
       --danger-accent: #ef4444;
-      --card-bg: rgba(20, 26, 40, 0.9);
+      --card-bg: rgba(18, 24, 38, 0.92);
       --card-border: rgba(255, 255, 255, 0.08);
       --font-heading: 'Outfit', sans-serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
@@ -31,13 +28,13 @@
 
     body {
       font-family: var(--font-body);
-      background-color: #0a0e1a;
+      background-color: #090d16;
       color: #e2e8f0;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 10% 15%, rgba(14, 165, 233, 0.14) 0%, transparent 40%),
-        radial-gradient(circle at 90% 75%, rgba(16, 185, 129, 0.1) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.25) 0%, transparent 70%);
+        radial-gradient(circle at 10% 12%, rgba(14, 165, 233, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 90% 70%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.2) 0%, transparent 75%);
       background-attachment: fixed;
     }
 
@@ -47,7 +44,7 @@
     }
 
     .navbar-glass {
-      background: rgba(10, 14, 26, 0.92);
+      background: rgba(9, 13, 22, 0.92);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--card-border);
     }
@@ -62,71 +59,20 @@
 
     .glass-card:hover {
       border-color: rgba(14, 165, 233, 0.35);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
     }
 
-    .step-node {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.85rem;
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      transition: all 0.25s ease;
     }
 
-    .step-active {
-      background: #0ea5e9;
-      color: #041226;
-      box-shadow: 0 0 18px rgba(14, 165, 233, 0.65);
-    }
-
-    .step-completed {
-      background: #10b981;
-      color: #042617;
-    }
-
-    .step-pending {
-      background: #1e293b;
-      color: #94a3b8;
-      border: 1px solid #334155;
-    }
-
-    .code-block {
-      background: #060911;
-      border: 1px solid #1e293b;
-      border-radius: 10px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.85rem;
-    }
-
-    .nav-pills .nav-link {
-      color: #94a3b8;
-      font-weight: 600;
-      border-radius: 10px;
-      padding: 0.6rem 1.25rem;
-      transition: all 0.2s ease;
-    }
-
-    .nav-pills .nav-link.active {
-      background: linear-gradient(135deg, #0ea5e9, #0284c7);
-      color: #ffffff;
-      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
-    }
-
-    .table-dark-custom th {
-      background: #131b2e;
-      color: #94a3b8;
-      font-weight: 600;
-      border-bottom: 1px solid #1e293b;
-    }
-
-    .table-dark-custom td {
-      background: transparent;
-      border-bottom: 1px solid #1e293b;
-      color: #e2e8f0;
-      vertical-align: middle;
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary-accent);
+      box-shadow: 0 12px 30px rgba(14, 165, 233, 0.2);
     }
 
     .hero-glow-btn {
@@ -144,10 +90,46 @@
       color: #ffffff;
     }
 
-    .badge-pill-soft {
-      background: rgba(14, 165, 233, 0.15);
-      color: #38bdf8;
-      border: 1px solid rgba(14, 165, 233, 0.25);
+    .step-node {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .step-active {
+      background: #0ea5e9;
+      color: #041226;
+      box-shadow: 0 0 18px rgba(14, 165, 233, 0.7);
+    }
+
+    .step-completed {
+      background: #10b981;
+      color: #042617;
+    }
+
+    .step-pending {
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+    }
+
+    .table-dark-custom th {
+      background: #121929;
+      color: #94a3b8;
+      font-weight: 600;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .table-dark-custom td {
+      background: transparent;
+      border-bottom: 1px solid #1e293b;
+      color: #e2e8f0;
+      vertical-align: middle;
     }
 
     .pulse-dot {
@@ -166,7 +148,6 @@
       100% { opacity: 1; transform: scale(1); }
     }
 
-    /* Print styles for simulated invoice */
     @media print {
       body * {
         visibility: hidden;
@@ -187,7 +168,7 @@
 </head>
 <body>
 
-  <!-- Navigation -->
+  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark navbar-glass sticky-top py-3">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-4" href="#">
@@ -195,10 +176,6 @@
           <i class="bi bi-car-front-fill fs-5"></i>
         </div>
         <span>AutoCare<span class="text-info">Hub</span></span>
-        <span class="badge bg-dark-subtle text-info border border-info-subtle ms-1 fs-6 fw-normal px-2 py-0.5 rounded-pill d-flex align-items-center gap-1.5">
-          <span class="pulse-dot"></span>
-          <span>Enterprise OS</span>
-        </span>
       </a>
 
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
@@ -206,24 +183,22 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3 gap-1">
-          <li class="nav-item"><a class="nav-link active" href="#workspace">Live Workspace</a></li>
-          <li class="nav-item"><a class="nav-link" href="#features">Capabilities</a></li>
-          <li class="nav-item"><a class="nav-link" href="#schema">System Schema</a></li>
-          <li class="nav-item"><a class="nav-link" href="#architecture-faq">Architecture FAQs</a></li>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-2">
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#booking">Book Appointment</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tracking">Track Repair</a></li>
+          <li class="nav-item"><a class="nav-link" href="#garage">My Garage</a></li>
+          <li class="nav-item"><a class="nav-link text-warning-emphasis" href="#workshop-desk"><i class="bi bi-speedometer2 me-1"></i>Workshop Desk</a></li>
         </ul>
 
-        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
-          <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1.5 small d-flex align-items-center gap-1.5">
-            <i class="bi bi-database-check"></i>
-            <span>Local Storage Active</span>
-          </span>
-          <button onclick="resetToInitialSeed()" class="btn btn-outline-secondary btn-sm px-2.5" title="Reset sample database to fresh defaults">
-            <i class="bi bi-arrow-clockwise"></i> Reset Data
-          </button>
-          <a href="#workspace" class="btn hero-glow-btn btn-sm px-3 d-flex align-items-center gap-2">
-            <i class="bi bi-speedometer2"></i>
-            <span>Open Operations</span>
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <a href="tel:+919876543210" class="text-decoration-none text-secondary d-none d-xl-flex align-items-center gap-2 small">
+            <i class="bi bi-telephone-fill text-info"></i>
+            <span>+91 98765 43210</span>
+          </a>
+          <a href="#booking" class="btn hero-glow-btn btn-sm px-3 py-2 d-flex align-items-center gap-2">
+            <i class="bi bi-calendar2-check"></i>
+            <span>Book Service</span>
           </a>
         </div>
       </div>
@@ -232,90 +207,218 @@
 
   <!-- Hero Section -->
   <header class="py-5 text-center position-relative">
-    <div class="container py-3">
-      <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill badge-pill-soft mb-3 fs-6">
-        <i class="bi bi-shield-check text-info"></i>
-        <span>Automotive Workshop, Diagnostics & Fleet Service Management Platform</span>
+    <div class="container py-4">
+      <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-dark bg-opacity-75 border border-secondary border-opacity-25 mb-3 fs-6">
+        <span class="pulse-dot"></span>
+        <span class="text-info small fw-semibold">Service Bays Open • Real-Time Repair Telematics</span>
       </div>
 
       <h1 class="display-4 fw-extrabold mb-3 text-white">
-        Intelligent Workshop Operations & <br class="d-none d-md-block">
-        <span class="text-transparent bg-clip-text" style="background: linear-gradient(135deg, #38bdf8, #818cf8, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Garage Management OS</span>
+        Precision Auto Care & <br class="d-none d-md-block">
+        <span class="text-transparent bg-clip-text" style="background: linear-gradient(135deg, #38bdf8, #818cf8, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Live Workshop Tracking</span>
       </h1>
 
-      <p class="lead text-secondary mx-auto mb-4" style="max-width: 780px;">
-        An all-in-one operating platform engineered for automotive service franchises, multi-bay repair centers, and commercial fleet managers. Featuring live customer appointments, technician job cards, real-time parts inventory synchronization, and automated itemized tax billing.
+      <p class="lead text-secondary mx-auto mb-4" style="max-width: 720px;">
+        Scheduled maintenance, diagnostic inspections, and certified mechanic repairs with complete transparency. Track your vehicle’s bay progress step-by-step and inspect itemized tax invoices online.
       </p>
 
-      <!-- Live Dynamic Metric Badges -->
-      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-        <div class="glass-card px-3 py-2 text-start">
-          <small class="text-secondary d-block" style="font-size: 0.75rem;">FLEET VEHICLES</small>
-          <strong class="text-white fs-5" id="heroStatVehicles">0</strong>
-        </div>
-        <div class="glass-card px-3 py-2 text-start">
-          <small class="text-secondary d-block" style="font-size: 0.75rem;">WORKSHOP JOBS</small>
-          <strong class="text-info fs-5" id="heroStatBookings">0</strong>
-        </div>
-        <div class="glass-card px-3 py-2 text-start">
-          <small class="text-secondary d-block" style="font-size: 0.75rem;">SPARE PARTS IN STOCK</small>
-          <strong class="text-warning fs-5" id="heroStatParts">0</strong>
-        </div>
-        <div class="glass-card px-3 py-2 text-start">
-          <small class="text-secondary d-block" style="font-size: 0.75rem;">SETTLED REVENUE</small>
-          <strong class="text-success fs-5" id="heroStatRevenue">₹0</strong>
+      <!-- Quick Vehicle Search / Track Bar -->
+      <div class="glass-card p-2 mx-auto mb-4 shadow" style="max-width: 580px;">
+        <div class="input-group">
+          <span class="input-group-text bg-transparent border-0 text-secondary">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="text" id="quickTrackInput" class="form-control bg-transparent border-0 text-white" placeholder="Enter Registration Plate (e.g. DL 03 CD 5678)...">
+          <button class="btn hero-glow-btn px-4" onclick="handleQuickTrack()">
+            Track Status
+          </button>
         </div>
       </div>
 
-      <!-- Quick Action Buttons -->
-      <div class="d-flex flex-wrap justify-content-center gap-3">
-        <button onclick="switchPortal('customer')" class="btn hero-glow-btn px-4 py-2.5 fs-6 d-flex align-items-center gap-2">
-          <i class="bi bi-person-fill"></i>
-          <span>Customer Garage Portal</span>
-        </button>
-        <button onclick="switchPortal('admin')" class="btn btn-outline-info px-4 py-2.5 fs-6 d-flex align-items-center gap-2">
-          <i class="bi bi-gear-wide-connected"></i>
-          <span>Workshop Admin Console</span>
-        </button>
-        <a href="#architecture-faq" class="btn btn-outline-secondary px-4 py-2.5 fs-6 d-flex align-items-center gap-2">
-          <i class="bi bi-cpu-fill"></i>
-          <span>Architecture & FAQs</span>
-        </a>
+      <!-- Trust Pillars -->
+      <div class="d-flex flex-wrap justify-content-center gap-4 text-secondary small pt-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-shield-check text-success fs-5"></i>
+          <span>100% Genuine OEM Spares</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-currency-rupee text-info fs-5"></i>
+          <span>Transparent Upfront Billing</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-tools text-warning fs-5"></i>
+          <span>Certified Bay Technicians</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-clock-history text-primary fs-5"></i>
+          <span>Same-Day Turnaround</span>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Interactive Live Workspace Section -->
-  <section id="workspace" class="py-5 bg-black bg-opacity-25 border-top border-bottom border-secondary border-opacity-10">
+  <!-- Service Packages Catalog -->
+  <section id="services" class="py-5 bg-black bg-opacity-25 border-top border-bottom border-secondary border-opacity-10">
     <div class="container">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
-        <div>
-          <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge bg-primary-subtle text-info text-uppercase tracking-wider fw-bold">Live Operational Workspace</span>
-            <span class="badge bg-success-subtle text-success small"><i class="bi bi-check-circle-fill me-1"></i>Real Data Persisted</span>
-          </div>
-          <h2 class="h3 fw-bold text-white mb-0">Interactive Service & Operations Hub</h2>
-          <p class="text-secondary small mb-0">Every vehicle added, service booked, or inventory change is <strong>stored immediately</strong> in your browser storage.</p>
-        </div>
-
-        <!-- Portal Toggle Pills -->
-        <ul class="nav nav-pills bg-dark p-1 rounded-3 border border-secondary border-opacity-25" id="portalTabs">
-          <li class="nav-item">
-            <button class="nav-link active d-flex align-items-center gap-2" id="tabCustomer" onclick="switchPortal('customer')">
-              <i class="bi bi-person-circle"></i>
-              <span>Customer Portal</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-link d-flex align-items-center gap-2" id="tabAdmin" onclick="switchPortal('admin')">
-              <i class="bi bi-speedometer2"></i>
-              <span>Workshop Admin</span>
-            </button>
-          </li>
-        </ul>
+      <div class="text-center mb-5">
+        <span class="text-info text-uppercase tracking-wider fw-bold small">Our Service Offerings</span>
+        <h2 class="display-6 fw-bold text-white mt-1">Predefined Maintenance Packages</h2>
+        <p class="text-secondary mx-auto" style="max-width: 620px;">
+          Comprehensive multi-point inspections performed by certified diagnostic mechanics using precision tools.
+        </p>
       </div>
 
-      <!-- Toast / Action Alert Banner -->
+      <div class="row g-4" id="serviceCardsContainer">
+        <!-- Periodic Maintenance -->
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="bg-primary bg-opacity-25 text-info p-2.5 rounded-3">
+                <i class="bi bi-wrench-adjustable fs-4"></i>
+              </div>
+              <span class="badge bg-primary-subtle text-primary fs-6 fw-bold">₹1,999</span>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Periodic Maintenance Service</h5>
+            <p class="text-secondary small mb-3 flex-grow-1">
+              General 40-point health inspection, engine fluid top-ups, spark plug clean, electrical diagnostics, and wash.
+            </p>
+            <ul class="list-unstyled small text-secondary d-flex flex-column gap-1.5 mb-4">
+              <li><i class="bi bi-check2 text-success me-1.5"></i>40-Point Electronic Scan</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Coolant & Brake Fluid Top-up</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Air & Cabin Filter Clean</li>
+            </ul>
+            <button class="btn btn-outline-info w-100 mt-auto" onclick="selectPackageForBooking('1999', 'Periodic Maintenance Service')">
+              Book This Package
+            </button>
+          </div>
+        </div>
+
+        <!-- Synthetic Oil Service -->
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card p-4 h-100 d-flex flex-column border-info border-opacity-50">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="bg-info bg-opacity-25 text-info p-2.5 rounded-3">
+                <i class="bi bi-droplet-half fs-4"></i>
+              </div>
+              <span class="badge bg-info text-dark fs-6 fw-bold">₹2,499</span>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Synthetic Oil & Filter Service</h5>
+            <p class="text-secondary small mb-3 flex-grow-1">
+              Complete engine flush, premium 5W-30 synthetic oil refill, OEM oil filter change, and sump seal replacement.
+            </p>
+            <ul class="list-unstyled small text-secondary d-flex flex-column gap-1.5 mb-4">
+              <li><i class="bi bi-check2 text-success me-1.5"></i>High-Grade Synthetic 5W-30 Oil</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Genuine OEM Oil Filter Replacement</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Underbody Leakage Inspection</li>
+            </ul>
+            <button class="btn hero-glow-btn w-100 mt-auto" onclick="selectPackageForBooking('2499', 'Full Synthetic Oil Change & Filter')">
+              Book This Package
+            </button>
+          </div>
+        </div>
+
+        <!-- Brake Overhaul -->
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="bg-danger bg-opacity-25 text-danger p-2.5 rounded-3">
+                <i class="bi bi-disc fs-4"></i>
+              </div>
+              <span class="badge bg-secondary-subtle text-white fs-6 fw-bold">₹1,499</span>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Brake Overhaul & Safety Check</h5>
+            <p class="text-secondary small mb-3 flex-grow-1">
+              Front & rear brake disc inspection, caliper servicing, pad caliper greasing, and hydraulic line bleeding.
+            </p>
+            <ul class="list-unstyled small text-secondary d-flex flex-column gap-1.5 mb-4">
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Brake Caliper Servicing</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Rotor Wear & Runout Measurement</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>DOT 4 Hydraulic Line Bleeding</li>
+            </ul>
+            <button class="btn btn-outline-info w-100 mt-auto" onclick="selectPackageForBooking('1499', 'Comprehensive Brake Overhaul')">
+              Book This Package
+            </button>
+          </div>
+        </div>
+
+        <!-- AC HVAC Disinfection -->
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="bg-warning bg-opacity-25 text-warning p-2.5 rounded-3">
+                <i class="bi bi-snow fs-4"></i>
+              </div>
+              <span class="badge bg-secondary-subtle text-white fs-6 fw-bold">₹1,850</span>
+            </div>
+            <h5 class="fw-bold text-white mb-2">AC Climate Control & Disinfection</h5>
+            <p class="text-secondary small mb-3 flex-grow-1">
+              Evaporator ultrasonic antibacterial cleaning, cabin carbon filter replacement, and AC condenser gas pressure check.
+            </p>
+            <ul class="list-unstyled small text-secondary d-flex flex-column gap-1.5 mb-4">
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Vent Path Ozone Disinfection</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Refrigerant Gas Top-Up</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Cabin Filter Odor Elimination</li>
+            </ul>
+            <button class="btn btn-outline-info w-100 mt-auto" onclick="selectPackageForBooking('1850', 'AC Climate Control Disinfection')">
+              Book This Package
+            </button>
+          </div>
+        </div>
+
+        <!-- Ceramic Detailing -->
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="bg-purple bg-opacity-25 text-info p-2.5 rounded-3">
+                <i class="bi bi-stars fs-4"></i>
+              </div>
+              <span class="badge bg-secondary-subtle text-white fs-6 fw-bold">₹3,499</span>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Ceramic Exterior Spa & Detailing</h5>
+            <p class="text-secondary small mb-3 flex-grow-1">
+              Paint swirl correction, 3-layer hydrophobic polymer ceramic seal, alloy de-ironing, and interior deep shampoo.
+            </p>
+            <ul class="list-unstyled small text-secondary d-flex flex-column gap-1.5 mb-4">
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Dual-Action Paint Decontamination</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Hydrophobic Nano Shield Coating</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Leather Condition & Interior Vacuum</li>
+            </ul>
+            <button class="btn btn-outline-info w-100 mt-auto" onclick="selectPackageForBooking('3499', 'Full Vehicle Ceramic Detailing')">
+              Book This Package
+            </button>
+          </div>
+        </div>
+
+        <!-- Suspension Diagnostics -->
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="bg-success bg-opacity-25 text-success p-2.5 rounded-3">
+                <i class="bi bi-compass fs-4"></i>
+              </div>
+              <span class="badge bg-secondary-subtle text-white fs-6 fw-bold">₹1,200</span>
+            </div>
+            <h5 class="fw-bold text-white mb-2">Suspension & 3D Wheel Alignment</h5>
+            <p class="text-secondary small mb-3 flex-grow-1">
+              Laser computerized 3D wheel alignment, dynamic wheel balancing, strut dampening check, and tie-rod inspection.
+            </p>
+            <ul class="list-unstyled small text-secondary d-flex flex-column gap-1.5 mb-4">
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Computerized 3D Alignment</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Dynamic 4-Wheel Balancing</li>
+              <li><i class="bi bi-check2 text-success me-1.5"></i>Suspension Bushing Integrity Check</li>
+            </ul>
+            <button class="btn btn-outline-info w-100 mt-auto" onclick="selectPackageForBooking('1200', 'Suspension & 3D Wheel Alignment')">
+              Book This Package
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Hub: My Garage & Appointment Booking -->
+  <section id="booking" class="py-5">
+    <div class="container">
       <div id="actionToast" class="alert alert-info border-info d-none align-items-center justify-content-between mb-4 shadow" role="alert">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-check-circle-fill text-info fs-5"></i>
@@ -324,229 +427,294 @@
         <button type="button" class="btn-close btn-close-white" onclick="hideToast()"></button>
       </div>
 
-      <!-- CUSTOMER PORTAL VIEW -->
-      <div id="customerPortalView">
-        <div class="row g-4 mb-4">
-          <!-- Garage Summary -->
-          <div class="col-lg-5">
-            <div class="glass-card p-4 h-100 d-flex flex-column">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0 text-white"><i class="bi bi-car-front text-info me-2"></i>My Vehicle Garage</h5>
-                <button class="btn btn-sm hero-glow-btn" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
-                  <i class="bi bi-plus-lg me-1"></i> Add Vehicle
-                </button>
+      <div class="row g-4">
+        <!-- My Garage -->
+        <div class="col-lg-5" id="garage">
+          <div class="glass-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span class="text-info text-uppercase fw-bold small">Customer Garage</span>
+                <h4 class="fw-bold text-white mb-0 mt-1">My Registered Vehicles</h4>
               </div>
-              <p class="text-secondary small mb-3">Vehicles registered for maintenance slots:</p>
-              
-              <div class="d-flex flex-column gap-2 flex-grow-1" id="vehiclesList">
-                <!-- Dynamically populated from AutoCareStore -->
-              </div>
-
-              <!-- Enterprise Data Integrity Note -->
-              <div class="alert alert-dark border-secondary border-opacity-25 mt-4 mb-0 small">
-                <i class="bi bi-shield-check text-info me-1"></i>
-                <strong>Enterprise Data Integrity:</strong> Registration plates and chassis identifiers enforce parameterized unique constraints and customer tenancy isolation.
-              </div>
+              <button class="btn btn-sm hero-glow-btn" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+                <i class="bi bi-plus-lg me-1"></i> Add Car
+              </button>
             </div>
-          </div>
+            <p class="text-secondary small mb-3">Select any vehicle from your fleet to schedule a service or view maintenance history:</p>
+            
+            <div class="d-flex flex-column gap-2 flex-grow-1" id="vehiclesList">
+              <!-- Dynamically populated from AutoCareStore -->
+            </div>
 
-          <!-- Service Booking Form -->
-          <div class="col-lg-7">
-            <div class="glass-card p-4">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0 text-white"><i class="bi bi-calendar2-check text-info me-2"></i>Schedule Workshop Appointment</h5>
-                <span class="badge bg-primary text-white">Direct Dispatch</span>
-              </div>
-
-              <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label text-secondary small">Select Registered Vehicle</label>
-                    <select class="form-select bg-dark text-white border-secondary" id="bookVehicle" required>
-                      <!-- Dynamically populated from AutoCareStore -->
-                    </select>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label text-secondary small">Service Package</label>
-                    <select class="form-select bg-dark text-white border-secondary" id="bookPackage" onchange="updateEstimatedCost()" required>
-                      <option value="1999" data-name="Periodic Maintenance Service">Periodic Maintenance Service (₹1,999)</option>
-                      <option value="2499" data-name="Full Synthetic Oil Change & Filter">Synthetic Oil & Filter Service (₹2,499)</option>
-                      <option value="1499" data-name="Comprehensive Brake Overhaul">Brake Pads & Rotor Overhaul (₹1,499)</option>
-                      <option value="1850" data-name="AC Climate Control Disinfection">AC HVAC Cleaning & Gas Top-Up (₹1,850)</option>
-                      <option value="3499" data-name="Full Vehicle Ceramic Detailing">Full Vehicle Spa & Detailing (₹3,499)</option>
-                    </select>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label text-secondary small">Preferred Appointment Date</label>
-                    <input type="date" class="form-control bg-dark text-white border-secondary" id="bookDate" required>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label class="form-label text-secondary small">Preferred Time Slot</label>
-                    <select class="form-select bg-dark text-white border-secondary" id="bookTime" required>
-                      <option value="09:30 AM">09:30 AM — Morning First Slot</option>
-                      <option value="11:30 AM">11:30 AM — Mid-Morning Slot</option>
-                      <option value="02:30 PM">02:30 PM — Afternoon Slot</option>
-                      <option value="04:30 PM">04:30 PM — Evening Slot</option>
-                    </select>
-                  </div>
-
-                  <div class="col-12">
-                    <label class="form-label text-secondary small">Reported Issues / Symptoms</label>
-                    <textarea class="form-control bg-dark text-white border-secondary" id="bookSymptoms" rows="2" placeholder="e.g. Squeaking noise when braking above 40 km/h, slight AC cooling drop."></textarea>
-                  </div>
-
-                  <div class="col-12 d-flex justify-content-between align-items-center pt-2">
-                    <div>
-                      <span class="text-secondary small">Base Package Labor:</span>
-                      <span class="text-info fw-bold fs-5 ms-2" id="estimatedCostBadge">₹1,999</span>
-                    </div>
-                    <button type="submit" class="btn hero-glow-btn px-4">
-                      <i class="bi bi-send-check me-1"></i> Confirm & Book Slot
-                    </button>
-                  </div>
-                </div>
-              </form>
+            <div class="p-3 rounded-3 bg-dark bg-opacity-75 border border-secondary border-opacity-25 mt-4 small text-secondary">
+              <i class="bi bi-info-circle text-info me-1"></i>
+              Registered cars automatically synchronize with technician diagnostic systems.
             </div>
           </div>
         </div>
 
-        <!-- Live Vehicle Job Cards Tracker -->
-        <div class="glass-card p-4 mb-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <span class="badge bg-info-subtle text-info text-uppercase font-monospace">Real-Time Telemetry</span>
-              <h5 class="fw-bold text-white mb-0 mt-1">Active Workshop Service Records & Job Cards</h5>
-            </div>
-            <small class="text-secondary">Updates immediately as jobs progress through bay bays</small>
-          </div>
-
-          <div id="customerJobCardsList" class="d-flex flex-column gap-3">
-            <!-- Dynamically populated from AutoCareStore -->
-          </div>
-        </div>
-      </div>
-
-      <!-- ADMIN WORKSHOP VIEW -->
-      <div id="adminPortalView" style="display: none;">
-        <!-- KPI Metrics Grid -->
-        <div class="row g-3 mb-4">
-          <div class="col-6 col-md-3">
-            <div class="glass-card p-3">
-              <span class="text-secondary small">Registered Fleet</span>
-              <div class="d-flex justify-content-between align-items-center mt-1">
-                <h3 class="fw-bold mb-0 text-white" id="kpiVehicles">0</h3>
-                <i class="bi bi-car-front-fill text-primary fs-3"></i>
+        <!-- Book Appointment Form -->
+        <div class="col-lg-7">
+          <div class="glass-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span class="text-info text-uppercase fw-bold small">Fast Scheduling</span>
+                <h4 class="fw-bold text-white mb-0 mt-1">Schedule Workshop Appointment</h4>
               </div>
-              <span class="badge bg-primary-subtle text-primary mt-2">Active in System</span>
+              <span class="badge bg-success-subtle text-success">Guaranteed Slot</span>
             </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="glass-card p-3">
-              <span class="text-secondary small">Active Bay Jobs</span>
-              <div class="d-flex justify-content-between align-items-center mt-1">
-                <h3 class="fw-bold mb-0 text-white" id="kpiActiveBays">0 / 4</h3>
-                <i class="bi bi-tools text-warning fs-3"></i>
-              </div>
-              <span class="badge bg-warning-subtle text-warning mt-2" id="kpiBayCapacity">Bay Capacity</span>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="glass-card p-3">
-              <span class="text-secondary small">Total Settled Revenue</span>
-              <div class="d-flex justify-content-between align-items-center mt-1">
-                <h3 class="fw-bold mb-0 text-white" id="kpiRevenue">₹0</h3>
-                <i class="bi bi-currency-rupee text-success fs-3"></i>
-              </div>
-              <span class="badge bg-success-subtle text-success mt-2">Paid Invoices</span>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="glass-card p-3">
-              <span class="text-secondary small">Inventory Items</span>
-              <div class="d-flex justify-content-between align-items-center mt-1">
-                <h3 class="fw-bold mb-0 text-white" id="kpiPartsCount">0</h3>
-                <i class="bi bi-box-seam-fill text-info fs-3"></i>
-              </div>
-              <span class="badge bg-danger-subtle text-danger mt-2" id="kpiLowStockAlerts">0 Low Stock Alerts</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- Master Booking Dispatch Table -->
-        <div class="glass-card p-4 mb-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <h5 class="fw-bold text-white mb-0"><i class="bi bi-kanban text-info me-2"></i>Live Workshop Bay & Booking Dispatch</h5>
-              <p class="text-secondary small mb-0">Approve slots, dispatch to bays, issue replacement parts, and finalize invoices.</p>
-            </div>
-            <button class="btn btn-sm btn-outline-info" onclick="renderAdminPortal()">
-              <i class="bi bi-arrow-clockwise"></i> Refresh Queue
-            </button>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-dark-custom align-middle small mb-0">
-              <thead>
-                <tr>
-                  <th>Job Card #</th>
-                  <th>Vehicle</th>
-                  <th>Service Package</th>
-                  <th>Appointment</th>
-                  <th>Status</th>
-                  <th>Bay & Tech</th>
-                  <th class="text-end">Manage Action</th>
-                </tr>
-              </thead>
-              <tbody id="adminBookingsTableBody">
-                <!-- Dynamically populated from AutoCareStore -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Charts & Inventory -->
-        <div class="row g-4 mb-4">
-          <!-- Chart.js Service Breakdown -->
-          <div class="col-lg-5">
-            <div class="glass-card p-4 h-100">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold text-white mb-0"><i class="bi bi-bar-chart-line text-info me-2"></i>Service Demand Distribution</h5>
-                <span class="badge bg-dark border border-secondary text-secondary">Live Telemetry</span>
-              </div>
-              <div style="height: 250px; position: relative;">
-                <canvas id="serviceChart"></canvas>
-              </div>
-            </div>
-          </div>
-
-          <!-- Spare Parts Inventory Table -->
-          <div class="col-lg-7">
-            <div class="glass-card p-4 h-100">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                  <h5 class="fw-bold text-white mb-0"><i class="bi bi-boxes text-info me-2"></i>Live Spare Parts Ledger</h5>
-                  <small class="text-secondary">Stock automatically decrements when issued to job cards</small>
-                </div>
-              </div>
-
-              <div class="table-responsive">
-                <table class="table table-dark-custom align-middle small mb-0">
-                  <thead>
-                    <tr>
-                      <th>Part Name</th>
-                      <th>SKU</th>
-                      <th>Stock Level</th>
-                      <th>Unit Rate</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="adminPartsTableBody">
+            <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label text-secondary small fw-semibold">Select Your Vehicle</label>
+                  <select class="form-select bg-dark text-white border-secondary" id="bookVehicle" required>
                     <!-- Dynamically populated from AutoCareStore -->
-                  </tbody>
-                </table>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label text-secondary small fw-semibold">Service Package</label>
+                  <select class="form-select bg-dark text-white border-secondary" id="bookPackage" onchange="updateEstimatedCost()" required>
+                    <option value="1999" data-name="Periodic Maintenance Service">Periodic Maintenance Service (₹1,999)</option>
+                    <option value="2499" data-name="Full Synthetic Oil Change & Filter">Synthetic Oil & Filter Service (₹2,499)</option>
+                    <option value="1499" data-name="Comprehensive Brake Overhaul">Brake Overhaul & Safety Check (₹1,499)</option>
+                    <option value="1850" data-name="AC Climate Control Disinfection">AC Climate Control & Disinfection (₹1,850)</option>
+                    <option value="3499" data-name="Full Vehicle Ceramic Detailing">Ceramic Exterior Spa & Detailing (₹3,499)</option>
+                    <option value="1200" data-name="Suspension & 3D Wheel Alignment">Suspension & 3D Wheel Alignment (₹1,200)</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label text-secondary small fw-semibold">Preferred Appointment Date</label>
+                  <input type="date" class="form-control bg-dark text-white border-secondary" id="bookDate" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label text-secondary small fw-semibold">Preferred Time Slot</label>
+                  <select class="form-select bg-dark text-white border-secondary" id="bookTime" required>
+                    <option value="09:30 AM">09:30 AM — Morning First Slot</option>
+                    <option value="11:30 AM">11:30 AM — Mid-Morning Slot</option>
+                    <option value="02:30 PM">02:30 PM — Afternoon Slot</option>
+                    <option value="04:30 PM">04:30 PM — Evening Slot</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label text-secondary small fw-semibold">Specific Symptoms or Concerns (Optional)</label>
+                  <textarea class="form-control bg-dark text-white border-secondary" id="bookSymptoms" rows="2" placeholder="e.g. Mild vibration when braking over 60 km/h, AC cooling drops in heavy traffic."></textarea>
+                </div>
+
+                <div class="col-12 d-flex justify-content-between align-items-center pt-2">
+                  <div>
+                    <span class="text-secondary small">Base Package Labor:</span>
+                    <span class="text-info fw-bold fs-5 ms-2" id="estimatedCostBadge">₹1,999</span>
+                  </div>
+                  <button type="submit" class="btn hero-glow-btn px-4 py-2">
+                    <i class="bi bi-send-check me-1"></i> Confirm Appointment
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Vehicle Repair Tracker -->
+  <section id="tracking" class="py-5 bg-black bg-opacity-25 border-top border-bottom border-secondary border-opacity-10">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-2">
+        <div>
+          <span class="text-info text-uppercase fw-bold small">Live Bay Telematics</span>
+          <h2 class="h3 fw-bold text-white mb-0 mt-1">Vehicle Repair Status & Active Job Cards</h2>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="pulse-dot"></span>
+          <span class="text-secondary small">Live bay status updates</span>
+        </div>
+      </div>
+
+      <div id="customerJobCardsList" class="d-flex flex-column gap-3">
+        <!-- Dynamically populated from AutoCareStore -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Workshop Desk (Supervisors & Mechanics Console) -->
+  <section id="workshop-desk" class="py-5">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge bg-warning-subtle text-warning text-uppercase fw-bold">Technicians & Service Advisors</span>
+          </div>
+          <h2 class="h3 fw-bold text-white mb-0">Workshop Bay Dispatch & Inventory Desk</h2>
+          <p class="text-secondary small mb-0">Assign bays, issue spare parts from stock, perform quality sign-offs, and process payments.</p>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-secondary" onclick="resetToInitialSeed()" title="Reload demo data">
+            <i class="bi bi-arrow-clockwise me-1"></i> Reset Sample Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Workshop Operational KPIs -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="glass-card p-3">
+            <span class="text-secondary small">Registered Fleet</span>
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <h3 class="fw-bold mb-0 text-white" id="kpiVehicles">0</h3>
+              <i class="bi bi-car-front-fill text-primary fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="glass-card p-3">
+            <span class="text-secondary small">Active Bay Jobs</span>
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <h3 class="fw-bold mb-0 text-white" id="kpiActiveBays">0 / 4</h3>
+              <i class="bi bi-tools text-warning fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="glass-card p-3">
+            <span class="text-secondary small">Total Settled Revenue</span>
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <h3 class="fw-bold mb-0 text-white" id="kpiRevenue">₹0</h3>
+              <i class="bi bi-currency-rupee text-success fs-3"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="glass-card p-3">
+            <span class="text-secondary small">Inventory Items</span>
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <h3 class="fw-bold mb-0 text-white" id="kpiPartsCount">0</h3>
+              <i class="bi bi-box-seam-fill text-info fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Job Dispatch Queue -->
+      <div class="glass-card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold text-white mb-0"><i class="bi bi-kanban text-info me-2"></i>Active Job Dispatch Queue</h5>
+          <small class="text-secondary">Click action buttons to progress workflow</small>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-dark-custom align-middle small mb-0">
+            <thead>
+              <tr>
+                <th>Job Card #</th>
+                <th>Vehicle & Owner</th>
+                <th>Service Package</th>
+                <th>Appointment Slot</th>
+                <th>Current Status</th>
+                <th>Bay & Mechanic</th>
+                <th class="text-end">Service Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminBookingsTableBody">
+              <!-- Dynamically populated from AutoCareStore -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Spare Parts Inventory Table -->
+      <div class="glass-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h5 class="fw-bold text-white mb-0"><i class="bi bi-boxes text-info me-2"></i>Spare Parts Inventory Ledger</h5>
+            <small class="text-secondary">Stock automatically decrements when issued to job cards</small>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-dark-custom align-middle small mb-0">
+            <thead>
+              <tr>
+                <th>Part Description</th>
+                <th>SKU</th>
+                <th>Stock In Hand</th>
+                <th>Unit Rate</th>
+                <th>Replenish</th>
+              </tr>
+            </thead>
+            <tbody id="adminPartsTableBody">
+              <!-- Dynamically populated from AutoCareStore -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Reviews -->
+  <section class="py-5 bg-black bg-opacity-25 border-top border-bottom border-secondary border-opacity-10">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="text-info text-uppercase fw-bold small">Customer Experiences</span>
+        <h2 class="display-6 fw-bold text-white mt-1">Trusted by Automobile Owners</h2>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="glass-card p-4 h-100">
+            <div class="d-flex text-warning mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p class="text-secondary small mb-3">
+              "The live job card tracker is game changing. I knew the moment my Honda City entered Bay #1 and when the synthetic oil was drained. No surprise costs!"
+            </p>
+            <div class="d-flex align-items-center gap-2">
+              <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px;">AP</div>
+              <div>
+                <strong class="text-white small d-block">Aarav Patel</strong>
+                <span class="text-secondary" style="font-size: 0.75rem;">Honda City 1.5 i-VTEC Owner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="glass-card p-4 h-100">
+            <div class="d-flex text-warning mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p class="text-secondary small mb-3">
+              "Had severe brake vibration on my Creta. The mechanic replaced the ceramic pads, and I could view the itemized invoice and GST breakdown online."
+            </p>
+            <div class="d-flex align-items-center gap-2">
+              <div class="bg-info text-dark rounded-circle p-2 d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px;">RD</div>
+              <div>
+                <strong class="text-white small d-block">Rohan Deshmukh</strong>
+                <span class="text-secondary" style="font-size: 0.75rem;">Hyundai Creta SX(O) Owner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="glass-card p-4 h-100">
+            <div class="d-flex text-warning mb-2">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p class="text-secondary small mb-3">
+              "Took my Nexon EV for ceramic detailing and AC service. Seamless online booking, transparent billing, and delivery right on time."
+            </p>
+            <div class="d-flex align-items-center gap-2">
+              <div class="bg-success text-white rounded-circle p-2 d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px;">PK</div>
+              <div>
+                <strong class="text-white small d-block">Pooja Kulkarni</strong>
+                <span class="text-secondary" style="font-size: 0.75rem;">Tata Nexon EV Max Owner</span>
               </div>
             </div>
           </div>
@@ -555,275 +723,53 @@
     </div>
   </section>
 
-  <!-- Enterprise Capabilities Section -->
-  <section id="features" class="py-5">
-    <div class="container">
-      <div class="text-center mb-5">
-        <span class="badge bg-info-subtle text-info text-uppercase font-monospace">Core Platform Architecture</span>
-        <h2 class="display-6 fw-bold text-white">Engineered for Workshop Operations</h2>
-        <p class="text-secondary mx-auto" style="max-width: 680px;">
-          High-throughput reliability, real-time inventory synchronization, and statutory financial compliance for modern auto care centers.
-        </p>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-4 h-100">
-            <div class="bg-primary bg-opacity-25 text-info p-3 rounded-3 d-inline-flex mb-3">
-              <i class="bi bi-kanban fs-4"></i>
-            </div>
-            <h5 class="fw-bold text-white">Multi-Bay Bay Flow</h5>
-            <p class="text-secondary small mb-0">
-              Interactive bay dispatch engine managing vehicles across Diagnostic, Mechanical, Detailing, and Quality Check bays with real-time status transitions.
-            </p>
-          </div>
+  <!-- Add Vehicle Modal -->
+  <div class="modal fade" id="addVehicleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card border border-secondary border-opacity-50 text-white">
+        <div class="modal-header border-secondary border-opacity-25">
+          <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle text-info me-2"></i>Register Vehicle to Garage</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-4 h-100">
-            <div class="bg-success bg-opacity-25 text-success p-3 rounded-3 d-inline-flex mb-3">
-              <i class="bi bi-boxes fs-4"></i>
+        <div class="modal-body p-4">
+          <form id="newVehicleForm" onsubmit="handleNewVehicle(event)">
+            <div class="mb-3">
+              <label class="form-label small text-secondary fw-semibold">Registration Plate Number</label>
+              <input type="text" class="form-control bg-dark text-white border-secondary" id="vehReg" placeholder="e.g. MH 14 GH 7890" required>
             </div>
-            <h5 class="fw-bold text-white">Atomic Spares Ledger</h5>
-            <p class="text-secondary small mb-0">
-              Transactional inventory reconciliation. Issuing parts locks row-level records, validates available stock thresholds, and records audit junction lines.
-            </p>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-4 h-100">
-            <div class="bg-warning bg-opacity-25 text-warning p-3 rounded-3 d-inline-flex mb-3">
-              <i class="bi bi-receipt-cutoff fs-4"></i>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small text-secondary fw-semibold">Make / Brand</label>
+                <input type="text" class="form-control bg-dark text-white border-secondary" id="vehBrand" placeholder="Tata / Honda" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small text-secondary fw-semibold">Model</label>
+                <input type="text" class="form-control bg-dark text-white border-secondary" id="vehModel" placeholder="Nexon / City" required>
+              </div>
             </div>
-            <h5 class="fw-bold text-white">Statutory Tax Invoicing</h5>
-            <p class="text-secondary small mb-0">
-              Synchronized billing formulas calculating labor base, replacement part rates, and 18% GST with historic price locking and print-ready PDF invoices.
-            </p>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-4 h-100">
-            <div class="bg-info bg-opacity-25 text-info p-3 rounded-3 d-inline-flex mb-3">
-              <i class="bi bi-shield-lock-fill fs-4"></i>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small text-secondary fw-semibold">Manufacturing Year</label>
+                <input type="number" class="form-control bg-dark text-white border-secondary" id="vehYear" value="2024" min="2000" max="2026" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label small text-secondary fw-semibold">Fuel / Propulsion</label>
+                <select class="form-select bg-dark text-white border-secondary" id="vehFuel">
+                  <option value="Petrol">Petrol</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="EV">Electric (EV)</option>
+                  <option value="CNG">CNG</option>
+                </select>
+              </div>
             </div>
-            <h5 class="fw-bold text-white">Immutable Service Vault</h5>
-            <p class="text-secondary small mb-0">
-              Permanent vehicle maintenance logs documenting diagnostic root causes, technician signatures, and replacement dates to maximize vehicle resale value.
-            </p>
-          </div>
+            <button type="submit" class="btn hero-glow-btn w-100 py-2">
+              <i class="bi bi-check2-circle me-1"></i> Register to My Garage
+            </button>
+          </form>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- Technical Architecture & Database Schema Section -->
-  <section id="schema" class="py-5 bg-black bg-opacity-25 border-top border-secondary border-opacity-10">
-    <div class="container">
-      <div class="text-center mb-5">
-        <span class="badge bg-info-subtle text-info text-uppercase font-monospace">Relational Database Design</span>
-        <h2 class="display-6 fw-bold text-white">8-Table Relational Schema Architecture</h2>
-        <p class="text-secondary mx-auto" style="max-width: 650px;">
-          Engineered for 3rd Normal Form (3NF) with strict referential integrity, ON DELETE CASCADE foreign keys, and synchronized financial calculations.
-        </p>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-people me-1"></i> users</h6>
-            <p class="text-secondary small mb-2">Customers & Admin staff authentication records.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK)<br>
-              • full_name, email (UQ)<br>
-              • phone, address<br>
-              • password_hash<br>
-              • role ('admin'/'customer')
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-car-front me-1"></i> vehicles</h6>
-            <p class="text-secondary small mb-2">Automobile registrations mapped to customers.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK)<br>
-              • customer_id (FK &rarr; users)<br>
-              • registration_number (UQ)<br>
-              • brand, model, year<br>
-              • fuel_type, vehicle_color
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-wrench me-1"></i> services</h6>
-            <p class="text-secondary small mb-2">Standardized workshop maintenance packages.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK)<br>
-              • service_name<br>
-              • description<br>
-              • base_charge<br>
-              • estimated_duration
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-calendar-check me-1"></i> bookings</h6>
-            <p class="text-secondary small mb-2">Customer appointment slots & tracking status.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK)<br>
-              • customer_id, vehicle_id<br>
-              • service_id<br>
-              • booking_date, time_slot<br>
-              • status ('pending', 'approved', etc.)
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-tools me-1"></i> repairs</h6>
-            <p class="text-secondary small mb-2">Technician diagnostic job cards.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK)<br>
-              • booking_id (FK &rarr; bookings)<br>
-              • technician_notes<br>
-              • diagnostic_details<br>
-              • labor_charge, repair_status
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-box-seam me-1"></i> spare_parts</h6>
-            <p class="text-secondary small mb-2">Workshop parts inventory with stock counters.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK)<br>
-              • part_name, part_number (UQ)<br>
-              • unit_price<br>
-              • stock_quantity<br>
-              • minimum_threshold
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-diagram-3 me-1"></i> repair_parts</h6>
-            <p class="text-secondary small mb-2">Junction table deducting inventory stock.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK)<br>
-              • repair_id (FK &rarr; repairs)<br>
-              • part_id (FK &rarr; spare_parts)<br>
-              • quantity_used<br>
-              • unit_price_at_repair
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="glass-card p-3 h-100">
-            <h6 class="fw-bold text-info mb-2"><i class="bi bi-receipt me-1"></i> bills</h6>
-            <p class="text-secondary small mb-2">Itemized synchronized tax invoices.</p>
-            <div class="code-block p-2 text-secondary">
-              • id (PK), invoice_number<br>
-              • booking_id, customer_id<br>
-              • total_service_charge<br>
-              • total_parts_charge, grand_total<br>
-              • payment_status, payment_method
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Technical Architecture & Engineering FAQ -->
-  <section id="architecture-faq" class="py-5">
-    <div class="container">
-      <div class="text-center mb-5">
-        <span class="badge bg-info-subtle text-info text-uppercase font-monospace">System Architecture & Engineering</span>
-        <h2 class="display-6 fw-bold text-white">Platform Capabilities & Engineering FAQs</h2>
-        <p class="text-secondary mx-auto" style="max-width: 680px;">
-          An architectural deep-dive into transaction atomicity, multi-tier database failover, OWASP security controls, and high-concurrency workshop throughput.
-        </p>
-      </div>
-
-      <div class="accordion glass-card border-0 p-3" id="faqAccordion">
-        <div class="accordion-item bg-transparent border-secondary border-opacity-25">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed bg-transparent text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqQ1">
-              1. Why Python Flask with Blueprint Architecture for Automotive Operations?
-            </button>
-          </h2>
-          <div id="faqQ1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-            <div class="accordion-body text-secondary small">
-              <strong>Answer:</strong> Flask provides a lightweight, high-performance WSGI foundation with sub-15ms baseline request latencies and low memory overhead. By structuring the codebase into modular <strong>Flask Blueprints</strong> (Customer, Garage, Booking, Bay Diagnostics, Inventory, and Tax Billing), the platform maintains clean domain boundaries and high maintainability, making it seamless to scale or extract services independently into microservices.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item bg-transparent border-secondary border-opacity-25">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed bg-transparent text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqQ2">
-              2. How does the High-Availability Connection Pool and Database Failover work?
-            </button>
-          </h2>
-          <div id="faqQ2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-            <div class="accordion-body text-secondary small">
-              <strong>Answer:</strong> The data layer (<code>database/db.py</code>) utilizes an intelligent connection abstraction. In standard cloud/production deployments, it maintains active connections to MySQL with transactional safety. During on-premise local workshop operations or intermittent network drops, the engine automatically catches connection exceptions and fails over to an embedded, high-performance SQLite engine (<code>car_service.db</code>). This guarantees zero workshop downtime.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item bg-transparent border-secondary border-opacity-25">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed bg-transparent text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqQ3">
-              3. How does the system ensure ACID compliance during Inventory Stock Allocation?
-            </button>
-          </h2>
-          <div id="faqQ3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-            <div class="accordion-body text-secondary small">
-              <strong>Answer:</strong> When technicians issue spare parts to a repair job card, the operation executes within an atomic database transaction. The system locks and evaluates <code>stock_quantity &gt;= quantity_requested</code>. Upon validation, it simultaneously writes an audit line to <code>repair_parts</code> and decrements inventory: <code>UPDATE spare_parts SET stock_quantity = stock_quantity - ? WHERE id = ?</code>. Any anomaly triggers an immediate rollback, preventing negative stock or phantom inventory.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item bg-transparent border-secondary border-opacity-25">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed bg-transparent text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqQ4">
-              4. How does the platform defend against OWASP Top 10 vulnerabilities?
-            </button>
-          </h2>
-          <div id="faqQ4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-            <div class="accordion-body text-secondary small">
-              <strong>Answer:</strong> 1) <strong>SQL Injection Defense:</strong> 100% of queries use parameterized prepared statements (<code>?</code> / <code>%s</code>), neutralizing injection vectors. 2) <strong>Credential Protection:</strong> Passwords undergo salted PBKDF2-SHA256 cryptographic hashing with Werkzeug before persistence. 3) <strong>IDOR & Broken Access Control:</strong> Strict session boundary verification (<code>customer_id == session['user_id']</code>) guarantees tenant isolation, preventing unauthorized cross-account inspection of vehicles or invoices.
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item bg-transparent border-secondary border-opacity-25">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed bg-transparent text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faqQ5">
-              5. How is Financial Synchronization and Historical Price Locking handled?
-            </button>
-          </h2>
-          <div id="faqQ5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-            <div class="accordion-body text-secondary small">
-              <strong>Answer:</strong> Invoice calculations use a deterministic formula: <code>Total = Service Base Labor + &Sigma;(Part Qty &times; Historical Unit Price) + Statutory 18% GST</code>. Replaced parts capture <code>unit_price_at_repair</code> at issuance time. As a result, closed historical invoices remain immutable and audit-compliant even if catalog wholesale part prices change in the future.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
 
   <!-- Itemized Invoice Modal (Printable) -->
   <div class="modal fade" id="invoiceModal" tabindex="-1">
@@ -844,103 +790,55 @@
     </div>
   </div>
 
-  <!-- Add Vehicle Modal -->
-  <div class="modal fade" id="addVehicleModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content glass-card border border-secondary border-opacity-50 text-white">
-        <div class="modal-header border-secondary border-opacity-25">
-          <h5 class="modal-title fw-bold"><i class="bi bi-plus-circle text-info me-2"></i>Register Vehicle to Garage</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body p-4">
-          <form id="newVehicleForm" onsubmit="handleNewVehicle(event)">
-            <div class="mb-3">
-              <label class="form-label small text-secondary">Registration / Number Plate</label>
-              <input type="text" class="form-control bg-dark text-white border-secondary" id="vehReg" placeholder="e.g. MH 14 GH 7890" required>
-            </div>
-            <div class="row g-2 mb-3">
-              <div class="col-6">
-                <label class="form-label small text-secondary">Make / Brand</label>
-                <input type="text" class="form-control bg-dark text-white border-secondary" id="vehBrand" placeholder="Tata" required>
-              </div>
-              <div class="col-6">
-                <label class="form-label small text-secondary">Model</label>
-                <input type="text" class="form-control bg-dark text-white border-secondary" id="vehModel" placeholder="Nexon" required>
-              </div>
-            </div>
-            <div class="row g-2 mb-3">
-              <div class="col-6">
-                <label class="form-label small text-secondary">Manufacturing Year</label>
-                <input type="number" class="form-control bg-dark text-white border-secondary" id="vehYear" value="2024" min="2000" max="2026" required>
-              </div>
-              <div class="col-6">
-                <label class="form-label small text-secondary">Fuel / Propulsion</label>
-                <select class="form-select bg-dark text-white border-secondary" id="vehFuel">
-                  <option value="Petrol">Petrol</option>
-                  <option value="Diesel">Diesel</option>
-                  <option value="EV">Electric (EV)</option>
-                  <option value="CNG">CNG</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" class="btn hero-glow-btn w-100">
-              <i class="bi bi-check2-circle me-1"></i> Save to Local Database
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Enterprise Corporate Footer -->
+  <!-- Clean Corporate Footer -->
   <footer class="py-5 border-top border-secondary border-opacity-25 bg-black bg-opacity-40 text-secondary small">
     <div class="container">
       <div class="row g-4 justify-content-between mb-4">
         <div class="col-lg-4">
           <div class="d-flex align-items-center gap-2 mb-2">
-            <div class="bg-primary text-white p-1.5 rounded-2 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">
+            <div class="bg-primary text-white p-1.5 rounded-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
               <i class="bi bi-car-front-fill fs-6"></i>
             </div>
             <span class="fw-bold text-white fs-5">AutoCare<span class="text-info">Hub</span></span>
           </div>
           <p class="text-secondary small mb-3">
-            The all-in-one operating system for modern automotive workshops, multi-bay service centers, and corporate fleet managers. Real-time telemetry, atomic inventory accounting, and automated customer diagnostics.
+            Your trusted automotive service center for routine maintenance, computerized multi-point diagnostics, and genuine repairs with real-time tracking.
           </p>
-          <div class="d-flex align-items-center gap-2">
-            <span class="pulse-dot"></span>
-            <span class="text-light small">Operational Status: All Core Services Normal</span>
+          <div class="text-secondary small">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i>
+            Auto Cluster Industrial Area, Chinchwad, Pune - 411019
           </div>
         </div>
 
         <div class="col-6 col-md-3 col-lg-2">
-          <h6 class="text-white fw-bold mb-3">Platform Solutions</h6>
+          <h6 class="text-white fw-bold mb-3">Services</h6>
           <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
-            <li><a href="#workspace" class="text-secondary text-decoration-none hover-text-white">Customer Portal</a></li>
-            <li><a href="#workspace" class="text-secondary text-decoration-none hover-text-white">Bay Telematics</a></li>
-            <li><a href="#workspace" class="text-secondary text-decoration-none hover-text-white">Inventory Ledger</a></li>
-            <li><a href="#workspace" class="text-secondary text-decoration-none hover-text-white">Statutory Billing</a></li>
+            <li><a href="#services" class="text-secondary text-decoration-none hover-text-white">Periodic Service</a></li>
+            <li><a href="#services" class="text-secondary text-decoration-none hover-text-white">Oil & Filter</a></li>
+            <li><a href="#services" class="text-secondary text-decoration-none hover-text-white">Brake Overhaul</a></li>
+            <li><a href="#services" class="text-secondary text-decoration-none hover-text-white">AC Disinfection</a></li>
           </ul>
         </div>
 
         <div class="col-6 col-md-3 col-lg-2">
-          <h6 class="text-white fw-bold mb-3">System Engineering</h6>
+          <h6 class="text-white fw-bold mb-3">Customer Desk</h6>
           <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
-            <li><a href="#schema" class="text-secondary text-decoration-none hover-text-white">Relational Schema</a></li>
-            <li><a href="#architecture-faq" class="text-secondary text-decoration-none hover-text-white">Architecture FAQs</a></li>
-            <li><a href="#architecture-faq" class="text-secondary text-decoration-none hover-text-white">Security & OWASP</a></li>
-            <li><a href="#architecture-faq" class="text-secondary text-decoration-none hover-text-white">Failover Pooling</a></li>
+            <li><a href="#booking" class="text-secondary text-decoration-none hover-text-white">Book Appointment</a></li>
+            <li><a href="#tracking" class="text-secondary text-decoration-none hover-text-white">Live Tracking</a></li>
+            <li><a href="#garage" class="text-secondary text-decoration-none hover-text-white">My Garage</a></li>
+            <li><a href="#workshop-desk" class="text-secondary text-decoration-none hover-text-white">Workshop Desk</a></li>
           </ul>
         </div>
 
         <div class="col-md-6 col-lg-3">
-          <h6 class="text-white fw-bold mb-3">Workshop Network</h6>
+          <h6 class="text-white fw-bold mb-3">Operating Hours</h6>
           <p class="text-secondary small mb-2">
-            AutoCareHub Enterprise OS v2.4<br>
-            Multi-Tenant Automotive Workshop Network<br>
-            Encrypted Session Management & ACID Compliance
+            <strong>Monday – Saturday:</strong> 8:00 AM – 8:00 PM<br>
+            <strong>Sunday:</strong> 9:00 AM – 2:00 PM<br>
+            <strong>Breakdown Support:</strong> 24/7 Roadside Assistance
           </p>
-          <div class="badge bg-secondary-subtle text-light border border-secondary px-2.5 py-1.5 font-monospace">
-            DB Engine: Active & Synchronized
+          <div class="text-info fw-bold">
+            <i class="bi bi-headset me-1"></i> +91 98765 43210
           </div>
         </div>
       </div>
@@ -949,13 +847,12 @@
 
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
         <div class="text-secondary">
-          &copy; 2026 AutoCareHub Technologies Inc. All rights reserved. Enterprise Workshop Edition.
+          &copy; 2026 AutoCareHub Service Centers Pvt. Ltd. All rights reserved.
         </div>
         <div class="d-flex gap-3">
           <a href="#" class="text-secondary text-decoration-none hover-text-white">Privacy Policy</a>
           <a href="#" class="text-secondary text-decoration-none hover-text-white">Terms of Service</a>
-          <a href="#" class="text-secondary text-decoration-none hover-text-white">Security Standards</a>
-          <a href="#" class="text-secondary text-decoration-none hover-text-white">Support SLA</a>
+          <a href="#" class="text-secondary text-decoration-none hover-text-white">Warranty Guidelines</a>
         </div>
       </div>
     </div>
@@ -966,9 +863,9 @@
 
   <!-- AutoCareHub Persistent Local Data Engine -->
   <script>
-    const STORAGE_KEY = 'autocarehub_enterprise_db_v2';
+    const STORAGE_KEY = 'autocarehub_live_platform_v3';
 
-    // Default Seed Data
+    // Seed Data
     const INITIAL_SEED = {
       vehicles: [
         { id: 1, reg: 'MH 12 AB 1234', brand: 'Honda', model: 'City 1.5 i-VTEC', year: 2021, fuel: 'Petrol', color: 'Pearl White', customer: 'Aarav Patel' },
@@ -994,8 +891,8 @@
           time: '09:30 AM',
           symptoms: 'Excessive pedal vibration when decelerating from highway speeds.',
           status: 'in_bay', // 'requested' | 'approved' | 'in_bay' | 'completed' | 'paid'
-          bay_no: 'Bay #2',
-          technician: 'Rajesh Sharma (Senior Mechanic)',
+          bay_no: 'Bay #2 (Mechanical)',
+          technician: 'Rajesh Sharma',
           parts_used: [
             { name: 'Ceramic Front Brake Pads', qty: 1, unit_price: 1850 },
             { name: 'Synthetic 5W-30 Engine Oil', qty: 1, unit_price: 650 }
@@ -1013,7 +910,7 @@
           time: '11:30 AM',
           symptoms: 'Scheduled periodic 20,000 km oil service.',
           status: 'approved',
-          bay_no: 'Bay #1',
+          bay_no: 'Bay #1 (Lube)',
           technician: 'Amit Varma',
           parts_used: [],
           customer_name: 'Aarav Patel',
@@ -1029,8 +926,8 @@
           time: '02:30 PM',
           symptoms: 'Hydrophobic ceramic treatment requested on exterior panels.',
           status: 'requested',
-          bay_no: 'Unassigned',
-          technician: 'Pending Allocation',
+          bay_no: 'Bay Allocation Pending',
+          technician: 'Assigned on arrival',
           parts_used: [],
           customer_name: 'Pooja Kulkarni',
           customer_phone: '+91 97654 33221'
@@ -1038,7 +935,6 @@
       ]
     };
 
-    // Store Access
     function getStore() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -1046,7 +942,6 @@
       } catch (e) {
         console.error('Storage parse error:', e);
       }
-      // Initialize with seed
       saveStore(INITIAL_SEED);
       return JSON.parse(JSON.stringify(INITIAL_SEED));
     }
@@ -1060,15 +955,14 @@
     }
 
     function resetToInitialSeed() {
-      if (confirm('Reset workshop database back to factory sample state? All vehicles and jobs will return to default.')) {
+      if (confirm('Reset workshop demo records back to initial state?')) {
         localStorage.removeItem(STORAGE_KEY);
         saveStore(INITIAL_SEED);
         initApp();
-        showToast('Database reset to fresh sample state. All persistent records restored.');
+        showToast('Sample records restored.');
       }
     }
 
-    // Toast UI
     function showToast(msg) {
       const toast = document.getElementById('actionToast');
       const msgElem = document.getElementById('toastMessage');
@@ -1076,7 +970,7 @@
         msgElem.textContent = msg;
         toast.classList.remove('d-none');
         toast.classList.add('d-flex');
-        setTimeout(hideToast, 5000);
+        setTimeout(hideToast, 4000);
       }
     }
 
@@ -1088,29 +982,6 @@
       }
     }
 
-    // Portal Switcher
-    function switchPortal(type) {
-      const custView = document.getElementById('customerPortalView');
-      const admView = document.getElementById('adminPortalView');
-      const tabCust = document.getElementById('tabCustomer');
-      const tabAdm = document.getElementById('tabAdmin');
-
-      if (type === 'admin') {
-        custView.style.display = 'none';
-        admView.style.display = 'block';
-        tabCust.classList.remove('active');
-        tabAdm.classList.add('active');
-        renderAdminPortal();
-      } else {
-        custView.style.display = 'block';
-        admView.style.display = 'none';
-        tabCust.classList.add('active');
-        tabAdm.classList.remove('active');
-        renderCustomerPortal();
-      }
-    }
-
-    // Calculation Helpers
     function calculateJobFinancials(booking) {
       const labor = Number(booking.base_price || 0);
       const partsTotal = (booking.parts_used || []).reduce((sum, p) => sum + (Number(p.qty) * Number(p.unit_price)), 0);
@@ -1120,52 +991,46 @@
       return { labor, partsTotal, subtotal, gst, grandTotal };
     }
 
-    // Render Metrics & Hero
-    function renderMetrics() {
-      const db = getStore();
-
-      // Vehicles count
-      document.getElementById('heroStatVehicles').textContent = db.vehicles.length;
-      document.getElementById('kpiVehicles').textContent = db.vehicles.length;
-
-      // Bookings count
-      document.getElementById('heroStatBookings').textContent = db.bookings.length;
-
-      // Active Bay Jobs (status in 'in_bay' or 'approved')
-      const activeBays = db.bookings.filter(b => b.status === 'in_bay' || b.status === 'approved').length;
-      document.getElementById('kpiActiveBays').textContent = `${activeBays} / 4`;
-      const capPct = Math.round((activeBays / 4) * 100);
-      document.getElementById('kpiBayCapacity').textContent = `${capPct}% Bay Utilization`;
-
-      // In stock parts sum
-      const totalPartsStock = db.parts.reduce((sum, p) => sum + p.stock, 0);
-      document.getElementById('heroStatParts').textContent = totalPartsStock + ' units';
-      document.getElementById('kpiPartsCount').textContent = db.parts.length;
-
-      const lowStockCount = db.parts.filter(p => p.stock <= p.min_threshold).length;
-      document.getElementById('kpiLowStockAlerts').textContent = `${lowStockCount} Low Stock Items`;
-
-      // Settled Revenue (status === 'paid' or 'completed')
-      const totalRevenue = db.bookings
-        .filter(b => b.status === 'paid')
-        .reduce((sum, b) => sum + calculateJobFinancials(b).grandTotal, 0);
-
-      const revFormatted = '₹' + Math.round(totalRevenue).toLocaleString('en-IN');
-      document.getElementById('heroStatRevenue').textContent = revFormatted;
-      document.getElementById('kpiRevenue').textContent = revFormatted;
+    function selectPackageForBooking(price, name) {
+      const sel = document.getElementById('bookPackage');
+      if (sel) {
+        for (let i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].getAttribute('data-name') === name || sel.options[i].value === price) {
+            sel.selectedIndex = i;
+            break;
+          }
+        }
+        updateEstimatedCost();
+      }
+      const bookSec = document.getElementById('booking');
+      if (bookSec) {
+        bookSec.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
-    // Render Customer Portal
+    function handleQuickTrack() {
+      const input = document.getElementById('quickTrackInput');
+      const q = (input ? input.value : '').toUpperCase().trim();
+      const trackSec = document.getElementById('tracking');
+      if (trackSec) {
+        trackSec.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (q) {
+        showToast(`Tracking status for ${q}... Showing records below.`);
+      }
+    }
+
+    // Render Garage, Appointments & Tracking
     function renderCustomerPortal() {
       const db = getStore();
 
-      // 1. Render Vehicles List
+      // Vehicles
       const vList = document.getElementById('vehiclesList');
       vList.innerHTML = '';
       db.vehicles.forEach(v => {
         const hasActiveJob = db.bookings.some(b => b.vehicle_reg === v.reg && b.status !== 'paid');
         const badgeHtml = hasActiveJob
-          ? '<span class="badge bg-warning-subtle text-warning">In Workshop</span>'
+          ? '<span class="badge bg-warning-subtle text-warning">In Service</span>'
           : '<span class="badge bg-success-subtle text-success">Ready</span>';
 
         const card = document.createElement('div');
@@ -1174,14 +1039,14 @@
           <div>
             <h6 class="fw-bold mb-0 text-white">${v.brand} ${v.model}</h6>
             <span class="badge bg-secondary-subtle text-light small font-monospace">${v.reg}</span>
-            <span class="text-secondary small ms-2">• ${v.year} ${v.fuel} (${v.color})</span>
+            <span class="text-secondary small ms-2">• ${v.year} ${v.fuel}</span>
           </div>
           <div>${badgeHtml}</div>
         `;
         vList.appendChild(card);
       });
 
-      // 2. Populate Booking Vehicle Select
+      // Populate Booking Select
       const vSelect = document.getElementById('bookVehicle');
       vSelect.innerHTML = '';
       db.vehicles.forEach(v => {
@@ -1191,28 +1056,27 @@
         vSelect.appendChild(opt);
       });
 
-      // 3. Render Job Cards
+      // Render Job Cards Tracker
       const jobList = document.getElementById('customerJobCardsList');
       jobList.innerHTML = '';
 
       if (db.bookings.length === 0) {
-        jobList.innerHTML = '<div class="text-secondary text-center py-4">No active booking records in database.</div>';
+        jobList.innerHTML = '<div class="text-secondary text-center py-4">No service appointments recorded.</div>';
         return;
       }
 
       db.bookings.forEach(b => {
         const fin = calculateJobFinancials(b);
 
-        // Status mapping to step integer (1 to 5)
         let step = 1;
         let badgeClass = 'bg-secondary';
         let badgeText = 'Requested';
 
-        if (b.status === 'requested') { step = 1; badgeClass = 'bg-primary-subtle text-primary'; badgeText = 'Requested'; }
+        if (b.status === 'requested') { step = 1; badgeClass = 'bg-primary-subtle text-primary'; badgeText = 'Appointment Requested'; }
         else if (b.status === 'approved') { step = 2; badgeClass = 'bg-info-subtle text-info'; badgeText = 'Approved & Queued'; }
-        else if (b.status === 'in_bay') { step = 3; badgeClass = 'bg-warning-subtle text-warning'; badgeText = 'Active In Bay'; }
-        else if (b.status === 'completed') { step = 4; badgeClass = 'bg-success-subtle text-success'; badgeText = 'Service Completed'; }
-        else if (b.status === 'paid') { step = 5; badgeClass = 'bg-success text-white'; badgeText = 'Settled & Invoiced'; }
+        else if (b.status === 'in_bay') { step = 3; badgeClass = 'bg-warning-subtle text-warning'; badgeText = 'In Service Bay'; }
+        else if (b.status === 'completed') { step = 4; badgeClass = 'bg-success-subtle text-success'; badgeText = 'Work Completed'; }
+        else if (b.status === 'paid') { step = 5; badgeClass = 'bg-success text-white'; badgeText = 'Delivered & Paid'; }
 
         function getNodeClass(n) {
           if (n < step) return 'step-node step-completed mx-auto mb-2';
@@ -1221,18 +1085,18 @@
         }
 
         const card = document.createElement('div');
-        card.className = 'glass-card p-3 border border-secondary border-opacity-25';
+        card.className = 'glass-card p-4 border border-secondary border-opacity-25';
         card.innerHTML = `
           <div class="d-flex flex-wrap justify-content-between align-items-center pb-2 border-bottom border-secondary border-opacity-25 mb-3">
             <div>
               <span class="badge ${badgeClass} font-monospace me-2">${b.id}</span>
               <strong class="text-white fs-6">${b.vehicle_reg} — ${b.vehicle_name}</strong>
-              <span class="text-secondary small ms-2">(${b.service_name})</span>
+              <span class="text-secondary small ms-2">• ${b.service_name}</span>
             </div>
             <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
               <span class="text-secondary small">Total Estimate: <strong class="text-info">₹${Math.round(fin.grandTotal).toLocaleString('en-IN')}</strong></span>
-              <button class="btn btn-outline-info btn-sm px-2.5 py-1" onclick="viewInvoice('${b.id}')">
-                <i class="bi bi-receipt me-1"></i> View Invoice
+              <button class="btn btn-outline-info btn-sm px-3" onclick="viewInvoice('${b.id}')">
+                <i class="bi bi-receipt me-1"></i> Tax Invoice
               </button>
             </div>
           </div>
@@ -1242,49 +1106,59 @@
             <div class="col">
               <div class="${getNodeClass(1)}">${step > 1 ? '<i class="bi bi-check"></i>' : '1'}</div>
               <div class="fw-bold small ${step === 1 ? 'text-info' : 'text-secondary'}">1. Requested</div>
-              <div class="text-secondary" style="font-size: 0.7rem;">${b.date}</div>
+              <div class="text-secondary" style="font-size: 0.72rem;">${b.date}</div>
             </div>
             <div class="col">
               <div class="${getNodeClass(2)}">${step > 2 ? '<i class="bi bi-check"></i>' : '2'}</div>
               <div class="fw-bold small ${step === 2 ? 'text-info' : 'text-secondary'}">2. Approved</div>
-              <div class="text-secondary" style="font-size: 0.7rem;">Bay Scheduled</div>
+              <div class="text-secondary" style="font-size: 0.72rem;">Slot Confirmed</div>
             </div>
             <div class="col">
               <div class="${getNodeClass(3)}">${step > 3 ? '<i class="bi bi-check"></i>' : (step === 3 ? '<i class="bi bi-gear-fill"></i>' : '3')}</div>
               <div class="fw-bold small ${step === 3 ? 'text-info' : 'text-secondary'}">3. In Bay</div>
-              <div class="text-secondary" style="font-size: 0.7rem;">${b.bay_no || 'Bay'}</div>
+              <div class="text-secondary" style="font-size: 0.72rem;">${b.bay_no || 'Bay'}</div>
             </div>
             <div class="col">
               <div class="${getNodeClass(4)}">${step > 4 ? '<i class="bi bi-check"></i>' : '4'}</div>
-              <div class="fw-bold small ${step === 4 ? 'text-info' : 'text-secondary'}">4. Quality Tested</div>
-              <div class="text-secondary" style="font-size: 0.7rem;">Verified</div>
+              <div class="fw-bold small ${step === 4 ? 'text-info' : 'text-secondary'}">4. Quality Check</div>
+              <div class="text-secondary" style="font-size: 0.72rem;">Inspected</div>
             </div>
             <div class="col">
               <div class="${getNodeClass(5)}">${step === 5 ? '<i class="bi bi-check"></i>' : '5'}</div>
               <div class="fw-bold small ${step === 5 ? 'text-success' : 'text-secondary'}">5. Ready & Paid</div>
-              <div class="text-secondary" style="font-size: 0.7rem;">Invoice Settled</div>
+              <div class="text-secondary" style="font-size: 0.72rem;">Gate Pass Issued</div>
             </div>
           </div>
 
-          <!-- Diagnostic & Tech Log -->
-          <div class="p-2.5 rounded-3 bg-dark bg-opacity-75 border border-secondary border-opacity-25 small">
+          <!-- Work Details -->
+          <div class="p-3 rounded-3 bg-dark bg-opacity-75 border border-secondary border-opacity-25 small">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
               <span class="text-secondary"><i class="bi bi-person-badge text-warning me-1"></i>Assigned Technician: <strong class="text-light">${b.technician || 'Pending Allocation'}</strong></span>
-              <span class="badge bg-secondary-subtle text-light">${b.parts_used.length} Replacement Parts Issued</span>
+              <span class="badge bg-secondary-subtle text-light">${b.parts_used.length} Spare Parts Issued</span>
             </div>
-            <div class="text-secondary"><strong>Symptoms / Issue:</strong> ${b.symptoms || 'Regular Maintenance'}</div>
+            <div class="text-secondary"><strong>Concerns / Symptoms Reported:</strong> ${b.symptoms || 'Scheduled Periodic Maintenance'}</div>
           </div>
         `;
         jobList.appendChild(card);
       });
     }
 
-    // Render Admin Portal
-    function renderAdminPortal() {
+    // Render Workshop Admin Desk
+    function renderWorkshopDesk() {
       const db = getStore();
-      renderMetrics();
 
-      // 1. Render Admin Bookings Table
+      // KPIs
+      document.getElementById('kpiVehicles').textContent = db.vehicles.length;
+      const activeBays = db.bookings.filter(b => b.status === 'in_bay' || b.status === 'approved').length;
+      document.getElementById('kpiActiveBays').textContent = `${activeBays} / 4`;
+
+      const totalRevenue = db.bookings
+        .filter(b => b.status === 'paid')
+        .reduce((sum, b) => sum + calculateJobFinancials(b).grandTotal, 0);
+      document.getElementById('kpiRevenue').textContent = '₹' + Math.round(totalRevenue).toLocaleString('en-IN');
+      document.getElementById('kpiPartsCount').textContent = db.parts.length;
+
+      // Bookings Table
       const tb = document.getElementById('adminBookingsTableBody');
       tb.innerHTML = '';
 
@@ -1294,24 +1168,24 @@
 
         if (b.status === 'requested') {
           statusBadge = '<span class="badge bg-primary-subtle text-primary">Requested</span>';
-          actionBtn = `<button class="btn btn-sm btn-outline-primary" onclick="adminApproveBooking('${b.id}')"><i class="bi bi-check2-circle me-1"></i>Approve & Bay</button>`;
+          actionBtn = `<button class="btn btn-sm btn-outline-primary" onclick="adminApproveBooking('${b.id}')"><i class="bi bi-check2 me-1"></i>Approve & Queue</button>`;
         } else if (b.status === 'approved') {
           statusBadge = '<span class="badge bg-info-subtle text-info">Approved</span>';
-          actionBtn = `<button class="btn btn-sm btn-outline-warning" onclick="adminSendToBay('${b.id}')"><i class="bi bi-gear-fill me-1"></i>Move to Bay</button>`;
+          actionBtn = `<button class="btn btn-sm btn-outline-warning" onclick="adminSendToBay('${b.id}')"><i class="bi bi-box-arrow-in-right me-1"></i>Move to Bay</button>`;
         } else if (b.status === 'in_bay') {
           statusBadge = '<span class="badge bg-warning-subtle text-warning">In Bay</span>';
-          actionBtn = `<button class="btn btn-sm btn-outline-success" onclick="adminCompleteJob('${b.id}')"><i class="bi bi-tools me-1"></i>Issue Parts & Done</button>`;
+          actionBtn = `<button class="btn btn-sm btn-outline-success" onclick="adminCompleteJob('${b.id}')"><i class="bi bi-tools me-1"></i>Issue Parts & Finish</button>`;
         } else if (b.status === 'completed') {
           statusBadge = '<span class="badge bg-success-subtle text-success">Completed</span>';
-          actionBtn = `<button class="btn btn-sm hero-glow-btn" onclick="adminPayJob('${b.id}')"><i class="bi bi-credit-card me-1"></i>Collect Payment</button>`;
+          actionBtn = `<button class="btn btn-sm hero-glow-btn" onclick="adminPayJob('${b.id}')"><i class="bi bi-cash-stack me-1"></i>Receive Payment</button>`;
         } else if (b.status === 'paid') {
           statusBadge = '<span class="badge bg-success text-white">Paid</span>';
-          actionBtn = `<button class="btn btn-sm btn-outline-info" onclick="viewInvoice('${b.id}')"><i class="bi bi-receipt me-1"></i>Invoice</button>`;
+          actionBtn = `<button class="btn btn-sm btn-outline-info" onclick="viewInvoice('${b.id}')"><i class="bi bi-receipt me-1"></i>View Invoice</button>`;
         }
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><span class="font-monospace fw-bold text-info">${b.id}</span></td>
+          <td><strong class="font-monospace text-info">${b.id}</strong></td>
           <td>
             <strong>${b.vehicle_reg}</strong><br>
             <span class="text-secondary" style="font-size: 0.75rem;">${b.vehicle_name}</span>
@@ -1328,14 +1202,14 @@
         tb.appendChild(tr);
       });
 
-      // 2. Render Admin Spare Parts Table
+      // Parts Table
       const ptb = document.getElementById('adminPartsTableBody');
       ptb.innerHTML = '';
 
       db.parts.forEach(p => {
         const isLow = p.stock <= p.min_threshold;
         const stockDisplay = isLow
-          ? `<strong class="text-danger">${p.stock} ${p.unit}</strong> <span class="badge bg-danger-subtle text-danger ms-1">Low</span>`
+          ? `<strong class="text-danger">${p.stock} ${p.unit}</strong> <span class="badge bg-danger-subtle text-danger ms-1">Low Stock</span>`
           : `<span class="text-white fw-bold">${p.stock} ${p.unit}</span>`;
 
         const tr = document.createElement('tr');
@@ -1345,30 +1219,27 @@
           <td>${stockDisplay}</td>
           <td>₹${p.unit_price.toLocaleString('en-IN')}</td>
           <td>
-            <button class="btn btn-sm btn-outline-success py-0 px-2" onclick="adminRestockPart(${p.id})">
+            <button class="btn btn-sm btn-outline-success py-0 px-2.5" onclick="adminRestockPart(${p.id})">
               <i class="bi bi-plus-lg"></i> +10 Units
             </button>
           </td>
         `;
         ptb.appendChild(tr);
       });
-
-      // 3. Update Chart.js
-      updateServiceChart();
     }
 
-    // Admin Workflow Actions
+    // Admin Actions
     function adminApproveBooking(id) {
       const db = getStore();
       const b = db.bookings.find(x => x.id === id);
       if (b) {
         b.status = 'approved';
         b.bay_no = 'Bay #' + (Math.floor(Math.random() * 3) + 1);
-        b.technician = 'Rajesh Sharma (Mechanic)';
+        b.technician = 'Rajesh Sharma';
         saveStore(db);
-        renderAdminPortal();
-        renderMetrics();
-        showToast(`Job ${id} approved and assigned to ${b.bay_no}. Saved to local database.`);
+        renderWorkshopDesk();
+        renderCustomerPortal();
+        showToast(`Job ${id} approved. Scheduled for ${b.bay_no}.`);
       }
     }
 
@@ -1378,9 +1249,9 @@
       if (b) {
         b.status = 'in_bay';
         saveStore(db);
-        renderAdminPortal();
-        renderMetrics();
-        showToast(`Job ${id} moved into active diagnostics in ${b.bay_no}.`);
+        renderWorkshopDesk();
+        renderCustomerPortal();
+        showToast(`Vehicle ${b.vehicle_reg} moved into ${b.bay_no} for diagnostics.`);
       }
     }
 
@@ -1389,10 +1260,8 @@
       const b = db.bookings.find(x => x.id === id);
       if (b) {
         b.status = 'completed';
-
-        // Automatically issue replacement part from stock if none issued yet
         if (b.parts_used.length === 0) {
-          const part = db.parts[0]; // issue synthetic oil or brake pads
+          const part = db.parts[0];
           if (part && part.stock >= 1) {
             part.stock -= 1;
             b.parts_used.push({
@@ -1402,11 +1271,10 @@
             });
           }
         }
-
         saveStore(db);
-        renderAdminPortal();
-        renderMetrics();
-        showToast(`Job ${id} marked completed! Parts inventory updated and deducted in local database.`);
+        renderWorkshopDesk();
+        renderCustomerPortal();
+        showToast(`Job ${id} signed off by technician. Parts issued and deducted from inventory.`);
       }
     }
 
@@ -1416,9 +1284,9 @@
       if (b) {
         b.status = 'paid';
         saveStore(db);
-        renderAdminPortal();
-        renderMetrics();
-        showToast(`Payment received for ${id}! Invoice finalized and settled in local database.`);
+        renderWorkshopDesk();
+        renderCustomerPortal();
+        showToast(`Payment recorded for ${id}. Invoice settled!`);
       }
     }
 
@@ -1428,13 +1296,12 @@
       if (part) {
         part.stock += 10;
         saveStore(db);
-        renderAdminPortal();
-        renderMetrics();
-        showToast(`Restocked +10 units of ${part.name}. Total stock now: ${part.stock} ${part.unit}.`);
+        renderWorkshopDesk();
+        showToast(`Restocked +10 units of ${part.name}. Current stock: ${part.stock} ${part.unit}.`);
       }
     }
 
-    // Handle New Vehicle Registration
+    // New Vehicle Registration
     function handleNewVehicle(e) {
       e.preventDefault();
       const reg = document.getElementById('vehReg').value.toUpperCase().trim();
@@ -1444,10 +1311,8 @@
       const fuel = document.getElementById('vehFuel').value;
 
       const db = getStore();
-
-      // Check unique plate
       if (db.vehicles.some(v => v.reg === reg)) {
-        alert('A vehicle with registration plate ' + reg + ' already exists in the database.');
+        alert('A vehicle with registration plate ' + reg + ' already exists in your garage.');
         return;
       }
 
@@ -1466,16 +1331,15 @@
       db.vehicles.push(newVeh);
       saveStore(db);
 
-      // Close modal
       bootstrap.Modal.getInstance(document.getElementById('addVehicleModal')).hide();
       document.getElementById('newVehicleForm').reset();
 
       renderCustomerPortal();
-      renderMetrics();
-      showToast(`Vehicle ${brand} ${model} (${reg}) registered and persisted to local database!`);
+      renderWorkshopDesk();
+      showToast(`Vehicle ${brand} ${model} (${reg}) registered in your garage.`);
     }
 
-    // Handle New Service Booking
+    // New Booking Submission
     function handleBookingSubmit(e) {
       e.preventDefault();
       const vehReg = document.getElementById('bookVehicle').value;
@@ -1501,7 +1365,7 @@
         base_price: basePrice,
         date: date,
         time: time,
-        symptoms: symptoms || 'Regular Scheduled Checkup',
+        symptoms: symptoms || 'Scheduled Maintenance',
         status: 'requested',
         bay_no: 'Queued',
         technician: 'Pending Allocation',
@@ -1514,11 +1378,13 @@
       saveStore(db);
 
       renderCustomerPortal();
-      renderMetrics();
-      showToast(`Service Appointment ${newBookingId} created and persisted in database! Status: Requested.`);
+      renderWorkshopDesk();
+      showToast(`Appointment ${newBookingId} scheduled for ${vehReg}! Status: Requested.`);
+      
+      const trackSec = document.getElementById('tracking');
+      if (trackSec) trackSec.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Cost Estimator
     function updateEstimatedCost() {
       const select = document.getElementById('bookPackage');
       const costBadge = document.getElementById('estimatedCostBadge');
@@ -1526,7 +1392,7 @@
       costBadge.textContent = '₹' + val.toLocaleString('en-IN');
     }
 
-    // View Invoice Modal
+    // View Invoice
     function viewInvoice(bookingId) {
       const db = getStore();
       const b = db.bookings.find(x => x.id === bookingId);
@@ -1540,7 +1406,7 @@
       if (b.parts_used.length === 0) {
         partsRowsHtml = `
           <tr>
-            <td colspan="5" class="text-center text-secondary py-2">No spare parts issued for this appointment.</td>
+            <td colspan="5" class="text-center text-secondary py-2">No spare parts billed for this maintenance session.</td>
           </tr>
         `;
       } else {
@@ -1566,7 +1432,7 @@
           </div>
           <div class="text-end">
             <span class="badge ${isPaid ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning'} fs-6">
-              ${isPaid ? 'PAID IN FULL' : 'PENDING PAYMENT'}
+              ${isPaid ? 'PAID IN FULL' : 'PAYMENT DUE'}
             </span>
             <p class="small text-secondary mt-1 mb-0 font-monospace">Invoice #: INV-${b.id.replace('JC-', '')}<br>Date: ${b.date}</p>
           </div>
@@ -1574,14 +1440,14 @@
 
         <div class="row mb-3 small">
           <div class="col-6">
-            <span class="text-secondary">Billed To:</span>
-            <p class="fw-bold mb-0 text-white">${b.customer_name || 'Valued Automobile Owner'}</p>
+            <span class="text-secondary">Customer:</span>
+            <p class="fw-bold mb-0 text-white">${b.customer_name || 'Automobile Owner'}</p>
             <p class="text-secondary mb-0">${b.customer_phone || '+91 98000 00000'}</p>
           </div>
           <div class="col-6 text-end">
-            <span class="text-secondary">Vehicle Serviced:</span>
+            <span class="text-secondary">Vehicle Details:</span>
             <p class="fw-bold mb-0 text-white">${b.vehicle_name}</p>
-            <p class="text-secondary mb-0 font-monospace">Reg: ${b.vehicle_reg}</p>
+            <p class="text-secondary mb-0 font-monospace">Plate: ${b.vehicle_reg}</p>
           </div>
         </div>
 
@@ -1590,7 +1456,7 @@
             <thead>
               <tr>
                 <th>Description</th>
-                <th class="text-center">Type</th>
+                <th class="text-center">Category</th>
                 <th class="text-center">Qty</th>
                 <th class="text-end">Unit Rate</th>
                 <th class="text-end">Total Amount</th>
@@ -1616,7 +1482,7 @@
                 <td class="text-end text-secondary">₹${Math.round(fin.gst).toLocaleString('en-IN')}</td>
               </tr>
               <tr>
-                <td colspan="4" class="text-end fs-5 fw-bold text-info">Grand Total Payable:</td>
+                <td colspan="4" class="text-end fs-5 fw-bold text-info">Grand Total:</td>
                 <td class="text-end fs-5 fw-bold text-info">₹${Math.round(fin.grandTotal).toLocaleString('en-IN')}</td>
               </tr>
             </tfoot>
@@ -1624,7 +1490,7 @@
         </div>
 
         <div class="p-2.5 rounded bg-dark border border-secondary border-opacity-25 small text-secondary">
-          <strong>Payment Mode:</strong> ${isPaid ? 'Settled (UPI / Card / Cash)' : 'Payment Due at Vehicle Delivery'} • <strong>Technician Assigned:</strong> ${b.technician || 'General Workshop Bay'}.
+          <strong>Payment Mode:</strong> ${isPaid ? 'Settled (Cash / UPI / Card)' : 'Payable upon Vehicle Delivery'} • <strong>Mechanic Sign-off:</strong> ${b.technician || 'General Workshop Bay'}.
         </div>
       `;
 
@@ -1632,55 +1498,7 @@
       modal.show();
     }
 
-    // Chart.js Service Breakdown
-    let serviceChartInstance = null;
-    function updateServiceChart() {
-      const ctx = document.getElementById('serviceChart');
-      if (!ctx) return;
-
-      const db = getStore();
-      const counts = {};
-      db.bookings.forEach(b => {
-        counts[b.service_name] = (counts[b.service_name] || 0) + 1;
-      });
-
-      const labels = Object.keys(counts);
-      const dataVals = Object.values(counts);
-
-      if (serviceChartInstance) {
-        serviceChartInstance.destroy();
-      }
-
-      serviceChartInstance = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: labels.length ? labels : ['General Periodic Service'],
-          datasets: [{
-            data: dataVals.length ? dataVals : [1],
-            backgroundColor: ['#0ea5e9', '#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'],
-            borderColor: '#0a0e1a',
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'right',
-              labels: {
-                color: '#94a3b8',
-                font: { family: "'Plus Jakarta Sans', sans-serif", size: 11 }
-              }
-            }
-          }
-        }
-      });
-    }
-
-    // Initialize Application
     function initApp() {
-      // Set default appointment date to tomorrow
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       const yyyy = tomorrow.getFullYear();
@@ -1690,7 +1508,7 @@
       if (dateElem) dateElem.value = `${yyyy}-${mm}-${dd}`;
 
       renderCustomerPortal();
-      renderMetrics();
+      renderWorkshopDesk();
     }
 
     document.addEventListener('DOMContentLoaded', initApp);
